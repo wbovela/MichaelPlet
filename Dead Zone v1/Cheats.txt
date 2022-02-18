@@ -1,0 +1,2 @@
+Unlimited lives:
+$1A78 = #$AD

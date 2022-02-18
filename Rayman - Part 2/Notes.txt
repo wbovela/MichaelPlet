@@ -1,0 +1,11 @@
+The scroll position must be given by:
+MapX, MapY
+BlkX, BlkY
+ChrX, ChrY
+PixX, PixY	???
+
+The player position must be given by:
+RayMapX, RayMapY
+RayBlkX, RayBlkY
+RayChrX, RayChrY
+RayPixX, RayPixY

@@ -1,0 +1,10 @@
+D:\Michael\C#\FindCharacters\FindCharacters\bin\Debug\FindCharacters.exe.config
+D:\Michael\C#\FindCharacters\FindCharacters\bin\Debug\FindCharacters.exe
+D:\Michael\C#\FindCharacters\FindCharacters\bin\Debug\FindCharacters.pdb
+D:\Michael\C#\FindCharacters\FindCharacters\obj\Debug\FindCharacters.Form1.resources
+D:\Michael\C#\FindCharacters\FindCharacters\obj\Debug\FindCharacters.Properties.Resources.resources
+D:\Michael\C#\FindCharacters\FindCharacters\obj\Debug\FindCharacters.csproj.GenerateResource.Cache
+D:\Michael\C#\FindCharacters\FindCharacters\obj\Debug\FindCharacters.exe
+D:\Michael\C#\FindCharacters\FindCharacters\obj\Debug\FindCharacters.pdb
+D:\Michael\C#\FindCharacters\FindCharacters\obj\Debug\FindCharacters.csprojAssemblyReference.cache
+D:\Michael\C#\FindCharacters\FindCharacters\obj\Debug\FindCharacters.csproj.CoreCompileInputs.cache

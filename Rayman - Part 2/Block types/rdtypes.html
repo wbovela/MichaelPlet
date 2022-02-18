@@ -1,0 +1,309 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="description" content="Rayman Designer tutorial.">
+<meta name="keywords" content="rayman, fan page, fanpage, 
+designer, gold, forever, for ever, instruction, manual, help,
+tutorial, level, map, design, create, download, game, mapper, event, editor,
+kmg associates, kmg">
+
+<title>Block Types</title>
+</head>
+
+<body bgcolor="#000000" text="#FFCC00" link="#009999" vlink="#FF9900" alink="#FFFFFF">
+<div align="center"><center>
+
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="50"><a href="index.html"><img src="images/rayhead2.gif" alt="Rayman" border="0" width="40" height="38"></a></td>
+    <td width="260"><font face="Comic Sans MS" size="2"><a href="index.html">Return to
+    Rayman's Home Page</a></font></td>
+    <td width="260" align="right"><font face="Comic Sans MS" size="2"><a href="rdtoc.htm"><img border="0" src="images/logord.gif" alt="Rayman Designer" width="100" height="51"></a><br>
+      <a href="rdtoc.htm">Return
+    to Table of Contents</a></font></td>
+  </tr>
+  <tr>
+    <td height="16">&nbsp;</td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+</center></div>
+<div align="center">
+  <center>
+  <table border="0" cellpadding="0" cellspacing="0" width="570">
+    <tr>
+      <td><h2 align="center"><font color="#FF9900" face="Comic Sans MS">Block
+        Types</font></h2>
+        <h3><font color="#FF9900" face="Comic Sans MS">Using Block
+        Types</font></h3>
+        <p><font face="Comic Sans MS" size="2">Each scenery block in a map has a &quot;Block Type&quot;
+        associated with it which defines how Rayman, his enemies and other
+        events in a level react to the block. A block in a flat grassy platform may have a
+        &quot;Solid Type&quot; which means that Rayman can walk on it. Snow in
+        the Mountain World may have a &quot;Slippery Type&quot; which means that
+        Rayman will slide on it. Spikes in the Cave World may have the &quot;Death
+        Type&quot; assigned to it which causes Rayman to lose a life point when
+        he touches the spikes.&nbsp;</font></p>
+        <p><font face="Comic Sans MS" size="2">The Template and Example Maps
+        contain handy scenery predrawn with blocks with the recommended Types
+        already assigned to them. In the Mapper, when you copy any of this
+        background scenery to your new level, you automatically copy the Block Types.&nbsp;You
+        usually do not need to worry about changing these Block Types.</font></p>
+        <p><font face="Comic Sans MS" size="2">There may be times when you want
+        to change the default Types. The basic properties of blocks should be
+        respected when choosing a new block Type. It may seem fun to have
+        Rayman fall through a solid looking musical bar or drown on a grassy
+        platform, but that is not good game design!</font></p>
+        <p><font face="Comic Sans MS" size="2">You can assign Types to blocks in
+        either the Mapper or in the Events Editor.&nbsp;(For detailed&nbsp;
+        instructions see <a href="rdmaptyp.htm">Working
+          with Block Types in the
+        Mapper</a> or <a href="rdevnted.htm#types">Using the Events
+              Editor</a>.) It is much easier to
+        work with Block Types in the Mapper.&nbsp;</font></p>
+        <p><font face="Comic Sans MS" size="2"> When you are building your
+        background scenery, make sure you check the Block Types from time to
+        time.
+        This is especially important when you are building complex scenery from bits and pieces of different design units. You can
+        mistakenly get Solid and Null Types intermixed and create platforms with
+        holes or solid looking walls that Rayman can magically walk through!</font></p>
+        <p align="center"><img border="0" src="images/typall.gif" alt="Block Types" width="534" height="28"></p>
+  </center>
+        <h3><font color="#FF9900" face="Comic Sans MS">The Block
+        Types</font></h3>
+        <p><img border="0" src="images/typnull.gif" alt="Null Type" width="32" height="32">&nbsp;
+        <font face="Comic Sans MS">Null Type: </font><font face="Comic Sans MS" size="2">Blocks
+            with this type have no effect whatsoever on Rayman. This is the
+        Block Type that is assigned to most of the &quot;empty&quot; space in a map
+            and some of the background scenery such as the plants in the Jungle
+            World. Rayman just walks in front of the scenery on the blocks with
+            this Type.</font></p>
+        <p><img border="0" src="images/typsolid.gif" alt="Solid Type" width="32" height="32">&nbsp;
+        <font face="Comic Sans MS">Solid Type: </font><font face="Comic Sans MS" size="2">This
+            is solid ground, allowing Rayman and other moving objects to walk on it. If this Block Type is used on a vertical wall, it will
+            appear solid to Rayman and he will not be able to walk through it.</font></p>
+        <p><img border="0" src="images/typpass.gif" alt="Pass-through Type" width="32" height="32">&nbsp;
+        <font face="Comic Sans MS">Pass-through Type: </font><font face="Comic Sans MS" size="2">This
+            is similar to the Solid Type, but Rayman can pass-through it from
+            below to above. It is used for small platforms of one block
+            thickness that Rayman can
+            jump through, but still appear solid to him when he is standing on
+            them. It is also used on the edges of larger, solid platforms to
+        enhance the effect of the jagged edges of the platforms.</font></p>
+      <img border="0" src="images/typup45.gif" alt="Slope Type" width="32" height="32"> <img border="0" src="images/typdn45.gif" alt="Slope Type" width="32" height="32">
+      <img border="0" src="images/typup30b.gif" alt="Slope Type" width="32" height="32"> <img border="0" src="images/typup30t.gif" alt="Slope Type" width="32" height="32">
+      <img border="0" src="images/typdn30t.gif" alt="Slope Type" width="32" height="32"> <img border="0" src="images/typdn30b.gif" alt="Slope Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Slope Types: </font><font face="Comic Sans MS" size="2">These
+            allow Rayman and other game characters to move up and down on sloped hills.
+      Blocks with the Slope Type have the same
+            characteristics as the Pass-through Type. There are six different
+            slope Types (two for steep 45-degree slopes, and four for 30-degree
+            slopes). These Types can be found on the sloped grassy platforms in
+            Jungle World, rocky paths in the Mountain and Cave Worlds, or
+            chocolate bars in the Cake World.&nbsp;</font>
+      <p><img border="0" src="images/typzflat.gif" alt="Slippery Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Slippery Type: </font><font face="Comic Sans MS" size="2">Rayman
+            slips and slides when he's on a Slippery Type. Rayman slips, but his
+            enemies such as the Antitoons can walk on them! This Block Type has
+            the same characteristics as the Pass-through Type. It is used on
+            flat slippery surfaces such as the icy musical bars, black
+            ink on the erasers in the Image World, and frosting in the Cake
+            World.</font></p>
+            <p><img border="0" src="images/typzu45.gif" alt="Slippery Slope Type" width="32" height="32"> <img border="0" src="images/typzd45.gif" alt="Slippery Slope Type" width="32" height="32">
+            <img border="0" src="images/typzu30b.gif" alt="Slippery Slope Type" width="32" height="32"> <img border="0" src="images/typzu30t.gif" alt="Slippery Slope Type" width="32" height="32">
+            <img border="0" src="images/typzd30t.gif" alt="Slippery Slope Type" width="32" height="32"> <img border="0" src="images/typzd30b.gif" alt="Slippery Slope Type" width="32" height="32">&nbsp;
+            <font face="Comic Sans MS">Slippery Slope Types: </font><font face="Comic Sans MS" size="2">Slippery
+            Slope Types combine the features of a Slope Type and the Slippery
+            Type. As with the Slope Types, there are six different ones for
+            steep or gradual slopes. These Types are usually used on slanted
+            slippery surfaces such as slanted musical bars or steep snow-covered
+            mountain paths.</font>
+      <p><img border="0" src="images/typdrown.gif" alt="Water Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Water Type: </font><font face="Comic Sans MS" size="2">When
+            Rayman contacts a Water Type, an animated sequence is triggered of
+      him drowning. These types are usually associated with the water
+            in the Jungle and Cave Worlds, and green syrup in the Cake World.</font></p>
+      <p><img border="0" src="images/typspike.gif" alt="Death Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Death Type: </font><font face="Comic Sans MS" size="2">When
+            Rayman touches a Death Type, he loses one life-point. When Rayman
+            collides with one of these Types he is highlighted and for a brief
+            moment he will not react to Types or enemies. Prickly surfaces such
+            mountain and cave spikes, musical notes, and the containers with
+            spikes in the Image World have the Death Type.</font></p>
+      <p><img border="0" src="images/typdeath.gif" alt="Instant Death Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Instant Death Type: </font><font face="Comic Sans MS" size="2">The
+            Instant Death Type is only to be used to ensure the death of Rayman
+            instead of deducting a life-point. It is used on musical notes which
+            line the bottom of the screen, spikes at the bottom of pits in the
+            Cave and Mountain Worlds, and some of the containers of spikes in
+            the Image World.</font></p>
+      <p><img border="0" src="images/typfall.gif" alt="Falling Type" width="32" height="32">&nbsp; <font face="Comic Sans MS">Falling Type: </font><font face="Comic Sans MS" size="2">When
+            Rayman has a fatal fall, these Types are put into position to
+            trigger an animated sequence of him falling. For this animation
+            to be credible, Falling Types must be placed at least 5 blocks below
+            the platform from which Rayman falls. These Types are usually placed
+            in empty space to ensure Rayman's death.</font></p>
+      <p><img border="0" src="images/typbounc.gif" alt="Bounce Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Bounce Type: </font><font face="Comic Sans MS" size="2">(Usually
+      used
+            only in the Image World) When Rayman lands on a block with this
+            Type, he automatically jumps. This Type is used on the top of the
+            bouncy blue erasers in the Image World. The Bounce Type is similar
+            to the Pass-through Type; Rayman can jump up through small one block
+            thick platforms with this type. Although this Type can be used in
+            the other Rayman worlds, it should only be used where it makes sense
+            in a game. It would not be good game design to use it on a grassy
+            path in the Jungle World!</font></p>
+      <p><img border="0" src="images/typclimb.gif" alt="Climbing Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Climbing Type: </font><font face="Comic Sans MS" size="2">(Usually
+      used
+            only in the Jungle World) The only predrawn scenery elements which
+      use this Type are
+            the vines in the Jungle World. Rayman can cling onto and climb up
+            the vines. With some creativity in the Mapper, this Type can be used in other
+            worlds to simulate ropes or other objects that Rayman would
+            logically climb.</font></p>
+      <p><img border="0" src="images/typreact.gif" alt="Reactive Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Reactive Type: </font><font face="Comic Sans MS" size="2">Usually
+            positioned to constrain the movement of events such as platforms, clouds,
+      and enemies events. For example, columns of Reactive Types are used
+            to make a Horizontal Cloud move back and forth within an area on the screen. A
+            box drawn of Reactive Types will constrain an Antitoon Flyer to a small
+            region of the screen. (For more information, see the section on <i><a href="rdreactv.htm">Using
+      Reactive Types</a></i>.)</font></p>
+      <p><img border="0" src="images/typplant.gif" alt="Seed Type" width="32" height="32">&nbsp;
+      <font face="Comic Sans MS">Seed Type: </font><font face="Comic Sans MS" size="2">(Can
+      only be used in the Jungle World) In the Jungle Rayman can plant a seed
+            which grows into a tall water lily that he can climb on. To allow
+            him to do this, position two Seed Types next to each other. The
+            Seed Types are usually placed on little mounds of dirt that are
+            supposed to be the only logical places to grow these plants. If you
+            want the water lily to be deadly, place a second row of Seed Types
+            on top of the first.</font>
+      <h3><font color="#FF9900" face="Comic Sans MS">Examples of Scenery and Block
+        Types</font></h3>
+      <div align="center">
+        <center>
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><img border="0" src="images/typex1n.gif" alt="Normal Mapper View" width="200" height="175"></td>
+            <td width="24"></td>
+            <td><img border="0" src="images/typex1t.gif" alt="Showing Block Types" width="200" height="175"></td>
+          </tr>
+          <tr>
+            <td>
+              <p align="center"><font face="Comic Sans MS" size="2">Normal
+              Mapper View</font></td>
+            <td></td>
+            <td>
+              <p align="center"><font face="Comic Sans MS" size="2">Showing
+              Block Types</font></td>
+          </tr>
+        </table>
+        </center>
+      </div>
+      <p><font face="Comic Sans MS" size="2">The above example is part of a map
+      from the Jungle World. The water on either side of the grassy island has
+      the Water Type. If Rayman falls into the water, he will drown. The bottom
+      grassy platform has a gradually sloping hill with flat areas on both edges
+      of the island. The blocks which make up the hill have Slope Types; the
+      flat areas have the Solid Type. The platforms will
+      feel solid to Rayman. The short vine between the bottom and second platform
+      has the Climbing Type which means Rayman can climb up the vine. The
+      topmost grassy platform has the Pass-through Type. Rayman can stand on the
+      second platform and jump up through the topmost grassy platform to
+      stand on it. The platform will be solid to walk on, but Rayman will not
+      &quot;hit his head&quot; when he jumps. The edges of the second grassy
+      platform are also Pass-through Types. This helps create the illusion that
+      the edges of the grass are not completely solid. There are two Seed Types
+      on the upper platform where the little pile of dirt can be seen in the
+      normal view. This means Rayman can plant a water lily seed there. The rest of
+      the background scenery has the Null Type; the Mapper just shows the
+      scenery images on the Null blocks.</font><p>&nbsp;
+      <div align="center">
+        <center>
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><img border="0" src="images/typex2n.gif" alt="Normal Mapper View" width="200" height="159"></td>
+            <td width="24"></td>
+            <td><img border="0" src="images/typex2t.gif" alt="Showing Block Types" width="200" height="159"></td>
+          </tr>
+          <tr>
+            <td>
+              <p align="center"><font face="Comic Sans MS" size="2">Normal
+              Mapper View</font></td>
+            <td></td>
+            <td>
+              <p align="center"><font face="Comic Sans MS" size="2">Showing
+              Block Types</font></td>
+          </tr>
+        </table>
+        </center>
+      </div>
+      <p><font face="Comic Sans MS" size="2">This example is from the Cave
+      World. The spikes on the vertical walls and the spikes on the top of the two stone
+      pillars have the Death Type. If Rayman touches them he will lose a
+      life-point. The sharp spikes at the bottom of pit have the Instant Death Type. If Rayman falls down into the pit, he will be
+      killed immediately. To
+      the right of the spiked rocks is an area of Falling Types. If Rayman jumps
+      off the right side of the spiked rocks, an animated sequence of a fatal
+      fall will be shown.</font>
+      <p>&nbsp;
+      <div align="center">
+        <center>
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><img border="0" src="images/typex3n.gif" alt="Normal Mapper View" width="175" height="135"></td>
+            <td width="24"></td>
+            <td><img border="0" src="images/typex3t.gif" alt="Showing Block Types" width="175" height="135"></td>
+          </tr>
+          <tr>
+            <td>
+              <p align="center"><font face="Comic Sans MS" size="2">Normal
+              Mapper View</font></td>
+            <td></td>
+            <td>
+              <p align="center"><font face="Comic Sans MS" size="2">Showing
+              Block Types</font></td>
+          </tr>
+        </table>
+        </center>
+      </div>
+      <p><font face="Comic Sans MS" size="2">In this example from the Music
+      World, the end of the musical bar has the Slippery Type and there is a
+      small section of Slippery Slope Types. The notes at the bottom of the
+      screen have the Instant Death Type which will ensure that Rayman dies if he falls on them.&nbsp;</font>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="center">
+  <center>
+  <table border="0" cellpadding="0" cellspacing="0" width="570">
+    <tr>
+      <td height="12">&nbsp;</td>
+    </tr>
+    <tr>
+      <td><img src="images/baraqua.gif" vspace="8" alt="bar" width="570" height="2"></td>
+    </tr>
+    <tr>
+      <td><font face="Comic Sans MS" size="2">This unofficial Rayman site was
+        created by <a href="http://www.kmgassociates.com">KMG Associates,</a>
+        which specializes in professional game design for web sites. </font></td>
+    </tr>
+    <tr>
+      <td height="12"><font face="Comic Sans MS" size="2">&nbsp;</font></td>
+    </tr>
+    <tr>
+      <td><a href="http://www.ubisoft.com"><img src="images/ubisoft.gif" alt="Ubi Soft" border="0" width="98" height="38"></a>
+        <font face="Comic Sans MS" size="2">Rayman is a product of <a href="http://www.ubisoft.com">Ubi
+        Soft, Inc.</a></font></td>
+    </tr>
+  </table>
+  </center>
+</div>
+</body>
+</html>

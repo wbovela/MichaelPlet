@@ -1,0 +1,21 @@
+2,0,79,81,80,56,127,127,127,127,640,480,0
+
+
+
+
+1	Mode - 1=Change screen resolution, 2=Do not change screen resolution
+1	Stereo - 1=Stereo sound, 0=Mono sound
+79	PatchNo1 - MIDI Patch No. to emulate SID Triangle generator (default=Ocarina)
+81	PatchNo2 - MIDI Patch No. to emulate SID Sawtooth generator (default=Lead 2 (sawtooth))
+80	PatchNo3 - MIDI Patch No. to emulate SID Pulse generator (default=Lead 1 (square))
+127	PatchNo4 - MIDI Patch No. to emulate SID Noise generator (default=Gunshot !!!)
+108	PatchVol1 - Relative MIDI Volume of PatchNo1
+127	PatchVol2 - Relative MIDI Volume of PatchNo2
+72	PatchVol3 - Relative MIDI Volume of PatchNo3
+64	PatchVol4 - Relative MIDI Volume of PatchNo4
+400	ScreenResX - Resolution of MP64 window in X-direction (if Mode=1)
+300	ScreenResY - Resolution of MP64 window in Y-direction (if Mode=1)
+1	SkipFrames - Set to 0 if PC is fast enough.
+	0=Skip no frames
+	1=Skip every second frame (draw, skip, draw, skip, ...)
+	2=Skip 2 of 3 frames (draw, skip, skip, draw, skip, skip, ...)

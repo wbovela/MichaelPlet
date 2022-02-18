@@ -1,0 +1,253 @@
+SCROLLS
+        BYTE 2, 2, 0, 0, 6, 6, 4, 4    ; SCROLLIX = 0
+        BYTE 4, 2, 4, 0, 4, 6, 4, 4    ; SCROLLIX = 1
+        BYTE 7, 1, 1, 7, 3, 5, 5, 3    ; SCROLLIX = 2
+        BYTE 2, 4, 0, 4, 6, 4, 4, 4    ; SCROLLIX = 3
+        BYTE 4, 4, 4, 4, 4, 4, 4, 4    ; SCROLLIX = 4
+        BYTE 6, 4, 0, 4, 2, 4, 4, 4    ; SCROLLIX = 5
+        BYTE 1, 7, 7, 1, 5, 3, 3, 5    ; SCROLLIX = 6
+        BYTE 4, 6, 4, 0, 4, 2, 4, 4    ; SCROLLIX = 7
+        BYTE 6, 6, 0, 0, 2, 2, 4, 4    ; SCROLLIX = 8
+
+ACTION
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 0
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 1
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 2
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 3
+        BYTE 0, 0, 0, 0                ; SCROLLIX = 4
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 5
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 6
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 7
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 8
+
+Alternative:
+
+SCROLLS
+        BYTE 2, 2,  0, 0,  6, 6,  4, 4    ; SCROLLIX = 0
+        BYTE 4, 2,  4, 0,  4, 6,  4, 4    ; SCROLLIX = 1
+        BYTE 5, 2,  7, 0,  1, 6,  3, 4    ; SCROLLIX = 2
+        BYTE 2, 4,  0, 4,  6, 4,  4, 4    ; SCROLLIX = 3
+        BYTE 4, 4,  4, 4,  4, 4,  4, 4    ; SCROLLIX = 4
+        BYTE 6, 4,  0, 4,  2, 4,  4, 4    ; SCROLLIX = 5
+        BYTE 2, 5,  0, 7,  6, 1,  4, 3    ; SCROLLIX = 6
+        BYTE 4, 6,  4, 0,  4, 2,  4, 4    ; SCROLLIX = 7
+        BYTE 6, 6,  0, 0,  2, 2,  4, 4    ; SCROLLIX = 8
+
+ACTION
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 0
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 1
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 2
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 3
+        BYTE 0, 0, 0, 0                ; SCROLLIX = 4
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 5
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 6
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 7
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 8
+
+SCROLLS
+        BYTE 3, 3,  2, 2,  1, 1,  0, 0,  7, 7,  6, 6,  5, 5,  4, 4    ; SCROLLIX = 0
+        BYTE 4, 3,  4, 2,  4, 1,  4, 0,  4, 7,  4, 6,  4, 5,  4, 4    ; SCROLLIX = 1
+        BYTE 4, 3,  5, 2,  6, 1,  7, 0,  0, 7,  1, 6,  2, 5,  3, 4    ; SCROLLIX = 2
+        BYTE 3, 4,  2, 4,  1, 4,  0, 4,  7, 4,  6, 4,  5, 4,  4, 4    ; SCROLLIX = 3
+        BYTE 4, 4,  4, 4,  4, 4,  4, 4,  4, 4,  4, 4,  4, 4,  4, 4    ; SCROLLIX = 4
+        BYTE 5, 4,  6, 4,  7, 4,  0, 4,  1, 4,  2, 4,  3, 4,  4, 4    ; SCROLLIX = 5
+        BYTE 3, 4,  2, 5,  1, 6,  0, 7,  7, 0,  6, 1,  5, 2,  4, 3    ; SCROLLIX = 6
+        BYTE 4, 5,  4, 6,  4, 7,  4, 0,  4, 1,  4, 2,  4, 3,  4, 4    ; SCROLLIX = 7
+        BYTE 5, 5,  6, 6,  7, 7,  0, 0,  1, 1,  2, 2,  3, 3,  4, 4    ; SCROLLIX = 8
+
+ACTION
+        BYTE 0, 0, 0, 1, 2, 0, 0, 0                ; SCROLLIX = 0
+        BYTE 0, 0, 0, 1, 2, 0, 0, 0                ; SCROLLIX = 1
+        BYTE 0, 0, 0, 1, 2, 0, 0, 0                ; SCROLLIX = 2
+        BYTE 0, 0, 0, 1, 2, 0, 0, 0                ; SCROLLIX = 3
+        BYTE 0, 0, 0, 0, 0, 0, 0, 0                ; SCROLLIX = 4
+        BYTE 0, 0, 1, 2, 0, 0, 0, 0                ; SCROLLIX = 5
+        BYTE 0, 0, 0, 1, 2, 0, 0, 0                ; SCROLLIX = 6
+        BYTE 0, 0, 1, 2, 0, 0, 0, 0                ; SCROLLIX = 7
+        BYTE 0, 0, 1, 2, 0, 0, 0, 0                ; SCROLLIX = 8
+
+
+
+Option 1:
+
+SCROLLS
+        BYTE 1, 1,  5, 5    ; SCROLLIX = 0
+        BYTE 4, 1,  4, 5    ; SCROLLIX = 1
+        BYTE 6, 1,  2, 5    ; SCROLLIX = 2
+        BYTE 1, 4,  5, 4    ; SCROLLIX = 3
+        BYTE 4, 4,  4, 4    ; SCROLLIX = 4
+        BYTE 7, 4,  3, 4    ; SCROLLIX = 5
+        BYTE 1, 6,  5, 2    ; SCROLLIX = 6
+        BYTE 4, 7,  4, 3    ; SCROLLIX = 7
+        BYTE 7, 7,  3, 3    ; SCROLLIX = 8
+
+ACTION
+        BYTE 1, 2                ; SCROLLIX = 0
+        BYTE 1, 2                ; SCROLLIX = 1
+        BYTE 1, 2                ; SCROLLIX = 2
+        BYTE 1, 2                ; SCROLLIX = 3
+        BYTE 0, 0                ; SCROLLIX = 4
+        BYTE 1, 2                ; SCROLLIX = 5
+        BYTE 1, 2                ; SCROLLIX = 6
+        BYTE 1, 2                ; SCROLLIX = 7
+        BYTE 1, 2                ; SCROLLIX = 8
+
+
+Option 2:
+
+SCROLLS
+        BYTE 2, 2,  6, 6    ; SCROLLIX = 0
+        BYTE 4, 2,  4, 6    ; SCROLLIX = 1
+        BYTE 5, 2,  1, 6    ; SCROLLIX = 2
+        BYTE 2, 4,  6, 4    ; SCROLLIX = 3
+        BYTE 4, 4,  4, 4    ; SCROLLIX = 4
+        BYTE 6, 4,  2, 4    ; SCROLLIX = 5
+        BYTE 2, 5,  6, 1    ; SCROLLIX = 6
+        BYTE 4, 6,  4, 2    ; SCROLLIX = 7
+        BYTE 6, 6,  2, 2    ; SCROLLIX = 8
+
+ACTION
+        BYTE 1, 2                ; SCROLLIX = 0
+        BYTE 1, 2                ; SCROLLIX = 1
+        BYTE 1, 2                ; SCROLLIX = 2
+        BYTE 1, 2                ; SCROLLIX = 3
+        BYTE 0, 0                ; SCROLLIX = 4
+        BYTE 1, 2                ; SCROLLIX = 5
+        BYTE 1, 2                ; SCROLLIX = 6
+        BYTE 1, 2                ; SCROLLIX = 7
+        BYTE 1, 2                ; SCROLLIX = 8
+
+
+Option 3:
+
+SCROLLS
+        BYTE 3, 3,  7, 7    ; SCROLLIX = 0
+        BYTE 4, 3,  4, 7    ; SCROLLIX = 1
+        BYTE 4, 3,  0, 7    ; SCROLLIX = 2
+        BYTE 3, 4,  7, 4    ; SCROLLIX = 3
+        BYTE 4, 4,  4, 4    ; SCROLLIX = 4
+        BYTE 5, 4,  1, 4    ; SCROLLIX = 5
+        BYTE 3, 4,  7, 0    ; SCROLLIX = 6
+        BYTE 4, 5,  4, 1    ; SCROLLIX = 7
+        BYTE 5, 5,  1, 1    ; SCROLLIX = 8
+
+ACTION
+        BYTE 1, 2                ; SCROLLIX = 0
+        BYTE 1, 2                ; SCROLLIX = 1
+        BYTE 1, 2                ; SCROLLIX = 2
+        BYTE 1, 2                ; SCROLLIX = 3
+        BYTE 0, 0                ; SCROLLIX = 4
+        BYTE 1, 2                ; SCROLLIX = 5
+        BYTE 1, 2                ; SCROLLIX = 6
+        BYTE 1, 2                ; SCROLLIX = 7
+        BYTE 1, 2                ; SCROLLIX = 8
+
+---
+
+SCROLLS
+        BYTE 3, 3,  2, 2,  1, 1,  0, 0,  7, 7,  6, 6,  5, 5,  4, 4    ; SCROLLIX = 0
+        BYTE 4, 3,  4, 2,  4, 1,  4, 0,  4, 7,  4, 6,  4, 5,  4, 4    ; SCROLLIX = 1
+        BYTE 4, 3,  5, 2,  6, 1,  7, 0,  0, 7,  1, 6,  2, 5,  3, 4    ; SCROLLIX = 2
+        BYTE 3, 4,  2, 4,  1, 4,  0, 4,  7, 4,  6, 4,  5, 4,  4, 4    ; SCROLLIX = 3
+        BYTE 4, 4,  4, 4,  4, 4,  4, 4,  4, 4,  4, 4,  4, 4,  4, 4    ; SCROLLIX = 4
+        BYTE 5, 4,  6, 4,  7, 4,  0, 4,  1, 4,  2, 4,  3, 4,  4, 4    ; SCROLLIX = 5
+        BYTE 3, 4,  2, 5,  1, 6,  0, 7,  7, 0,  6, 1,  5, 2,  4, 3    ; SCROLLIX = 6
+        BYTE 4, 5,  4, 6,  4, 7,  4, 0,  4, 1,  4, 2,  4, 3,  4, 4    ; SCROLLIX = 7
+        BYTE 5, 5,  6, 6,  7, 7,  0, 0,  1, 1,  2, 2,  3, 3,  4, 4    ; SCROLLIX = 8
+
+Phase   S=1   0      1      2      3      4      5      6      7
+        S=2          0             1             2             3
+        S=4                 0                           1
+
+Offset  S=1   +0     +2     +4     +6     +8     +10    +12    +14
+        S=2          +2            +6            +10           +14
+        S=4                 +4                          +12
+
+Offset(Phase+1, S) = Offset(Phase, S) + 2*S
+
+Offset(0, S) = 2*[S/2]		; LDA SCROLLSPEED: LSR: ASL  /  LDA SCROLLSPEED: AND #%11111110
+
+S=1:	Offset = 16*SCROLLIX+2*PHASE   = 16*SCROLLIX+2*(1*PHASE+0)
+
+S=2:	Offset = 16*SCROLLIX+4*PHASE+2 = 16*SCROLLIX+2*(2*PHASE+1)
+
+S=4:	Offset = 16*SCROLLIX+8*PHASE+4 = 16*SCROLLIX+2*(4*PHASE+2)
+
+S=1:
+Phase	Offset
+0			0
+1			2
+2			4
+3			6
+4			8
+5			10
+6			12
+7			14
+2*PHASE+0
+
+S=2:
+Phase	Offset
+0			2
+2			6
+4			10
+6			14
+2*PHASE+2		(If PHASE=0,1,2,3 then 4*PHASE+2)
+
+S=4:
+Phase	Offset
+0			4
+4			12
+2*PHASE+4		(If PHASE=0,1 then 8*PHASE+4)
+
+X=16*SCROLLIX+2*PHASE+(S AND 6)
+X=2*(8*SCROLLIX+PHASE)+(S AND 6)
+
+LDA SCROLLIX
+ASL
+ASL
+ASL
+CLC
+ADC PHASE
+ASL
+STA OFFSET+1
+LDA SCROLLSPEED
+AND #$00000110
+CLC
+ADC OFFSET+1
+STA OFFSET+1
+
+
+
+
+ACTION
+        BYTE 0, 0, 1, 0, 2, 0, 0, 0                ; SCROLLIX = 0
+        BYTE 0, 0, 1, 0, 2, 0, 0, 0                ; SCROLLIX = 1
+        BYTE 0, 0, 1, 0, 2, 0, 0, 0                ; SCROLLIX = 2
+        BYTE 0, 0, 1, 0, 2, 0, 0, 0                ; SCROLLIX = 3
+        BYTE 0, 0, 0, 0, 0, 0, 0, 0                ; SCROLLIX = 4
+        BYTE 0, 1, 0, 2, 0, 0, 0, 0                ; SCROLLIX = 5
+        BYTE 0, 0, 0, 1, 2, 0, 0, 0                ; SCROLLIX = 6
+        BYTE 0, 0, 1, 2, 0, 0, 0, 0                ; SCROLLIX = 7
+        BYTE 0, 0, 1, 2, 0, 0, 0, 0                ; SCROLLIX = 8
+
+ACTION
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 0
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 1
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 2
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 3
+        BYTE 0, 0, 0, 0                ; SCROLLIX = 4
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 5
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 6
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 7
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 8
+
+ACTION
+        BYTE 1, 2                ; SCROLLIX = 0
+        BYTE 1, 2                ; SCROLLIX = 1
+        BYTE 1, 2                ; SCROLLIX = 2
+        BYTE 1, 2                ; SCROLLIX = 3
+        BYTE 0, 0                ; SCROLLIX = 4
+        BYTE 1, 2                ; SCROLLIX = 5
+        BYTE 1, 2                ; SCROLLIX = 6
+        BYTE 1, 2                ; SCROLLIX = 7
+        BYTE 1, 2                ; SCROLLIX = 8

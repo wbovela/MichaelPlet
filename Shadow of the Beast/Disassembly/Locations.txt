@@ -1,0 +1,5 @@
+	Screen1	Screen2	Char. set
+Top:	C000	C400	C800
+Bottom:	
+Mode:			Multicolor
+Sprites:

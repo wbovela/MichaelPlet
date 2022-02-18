@@ -1,0 +1,15 @@
+$11C8-$1447:	Block definitions (Block no. 00-09)
+
+$4000-$47FF:	Character set
+$4800-$7BFF:	Sprite definitions
+$7C00-$7FF7:	Screen
+$7FF8-$7FFF:	Sprite pointers
+$8000-$807F:	Check for soft reset
+$8080-$80BF:	Note table FREQ LO
+$80C0-$80FF:	Note table FREQ HI
+$8100-$85FF:	Music data - Voice 1
+$8600-$8AFF:	Music data - Voice 2
+$8B00-$8FFF:	Music data - Voice 3
+$9000-$9FFF:	Map
+$A000-$B3FF:	Scroll text
+$C000-$CFFF:	Map copy

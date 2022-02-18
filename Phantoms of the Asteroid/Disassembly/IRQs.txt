@@ -1,0 +1,58 @@
+IRQ vector = 54C9		40			->  71FD
+IRQ vector = 54F4		174			->  5529
+IRQ vector = 5529		176			->  55DA
+IRQ vector = 55DA		185			->  54C9
+IRQ vector = 55DA		???
+IRQ vector = 71FD		140			->  54F4
+IRQ vector = 7236		40/200	->  7271
+IRQ vector = 7271		174			->  72A6
+IRQ vector = 72A6		176			->  72F1
+IRQ vector = 72F1		185			->  7236
+
+
+40		54C9
+140		71FD
+174		54F4
+176		5529
+185		55DA
+
+40		7236
+174		7271
+176		72A6
+185		72F1
+200		7236
+
+Intro:
+7237
+7272
+72A7
+72F2
+7237
+7272
+72A7
+72F2
+7237
+
+In-game:
+55DB
+54CA
+71FE
+54F5
+552A
+55DB
+54CA
+71FE
+54F5
+552A
+55DB
+
+Game over:
+7237
+7272
+72A7
+72F2
+7237
+7272
+72A7
+72F2
+7237

@@ -1,0 +1,58 @@
+Sprite 0 is Player
+Sprite 1 is Bullet
+Sprite 2 is Witch, Snowmen, Moving Platform
+Sprite 3 is Witch, Slug
+Sprite 4 is Cup
+Sprite 5 is Gold Bars, Slug
+Sprite 6 is Witch, Trolley
+
+$44 is LEVELNO
+$1F8A is table of sprite multicolors indexed by LEVELNO
+
+Locations of enemies and goodies are read from the level map
+
+Special blocks (change 67C1 to try):
+
+20: Small horisontal force field
+29: Force field
+2A: Force field
+2B: Force field
+2C: Force field
+2E: Automatic ladder
+45: Disappearing bridge
+81: Trolley
+82: Ice cream
+83: Pointy rock
+84: Lantern
+85: Tank
+86: Tank
+87: "50" (Goody)
+88: Pawn
+89: Chicken leg
+8A: Key
+8B: Bolt
+8C: Slug
+8D: Slug
+8E: Trophy
+8F: Cherries
+90: Shield
+92: Fruit
+93: Urn
+94: Witch
+95: Witch
+96: Snowman
+98: Baseball (enemy)
+99: Worm in tank
+9A: Worm in tank
+9B: Moving platform
+9C: Spring board
+9D: Reverse deadly spring board
+9E: Tomb stone
+9F: Gold bars
+
+
+Witch at map location 6389 is read at 4CF5, 4CF5, 4CF5, 1575 and 158F when moving down
+
+Witch at map location 6389 is read at 4951, 126D, 127C, 4951 and 4951 when moving left
+
+Witch at map location 6389 is read at 48E2, 48E2 when starting level

@@ -1,0 +1,28 @@
+The scrolling and the game mechanics should be considered separate parts.
+Imagine that the screen is as big as the map in pixels (2560 x 672).
+Then there is no scrolling to worry about.
+
+Each object will have a set of (16-bit) coordinates in pixels. These coordinates will
+be updated as the object moves around.
+
+The scroller is then a window to the map. To determine which objects is within this window,
+a 16-bit representation of the top-left corner of the window on the map must be calculated:
+
+	WindowX = 32 * MAPX + 8 * BLOCKX + XSCROLL
+	WindowY = 32 * MAPY + 8 * BLOCKY + YSCROLL
+
+Then WindowX must be subtracted from each object's X-coordinate.
+If the result is between 0 and 319 (40 chars x 8 pixels - 1), the object's X-coordinate
+is within the bounds of the window.
+WindowY must be subtracted from the object's Y-coordinate.
+If the result is between 0 and 135 (17 chars x 8 pixels - 1), the object's Y-coordinate
+is within the bounds of the window.
+If both WindowsX and WindowsY are within the bounds of the window, the object should
+be shown.
+
+Each object should have a start location (16-bit) and an Active indicator.
+It should also have a sequence of movement and images (sprite pointers).
+There could be special characters in the level to trigger activation of objects.
+Maybe the same could be done to deactivate objects.
+
+A limit of 255 objects in a level would be sufficient.

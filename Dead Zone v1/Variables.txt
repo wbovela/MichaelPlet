@@ -1,0 +1,49 @@
+0044				LEVELNO
+0055				Jumping/Falling (Normal = 00, Jumping = 01, Falling = 02)
+0057				Jumping/Falling Direction (Straight = 00, Left = 01, Right = 02)
+00B5	D010	Sprite 0-7 X-Pos MSB
+
+02DE	Score 6th digit
+02DF	Score 5th digit
+02E0	Score 4th digit
+02E1	Score 3rd digit
+02E2	Score 2nd digit
+02E3	Score 1st digit
+
+02FE	LIVES
+
+035C	07F8	Sprite 0 Pointer
+035D	07F9	Sprite 1 Pointer
+035E	07FA	Sprite 2 Pointer
+035F	07FB	Sprite 3 Pointer
+0360	07FC	Sprite 4 Pointer
+0361	07FD	Sprite 5 Pointer
+0362	07FE	Sprite 6 Pointer
+0363	07FF	Sprite 7 Pointer
+
+0366	D000	Sprite 0 X-Pos (LSB)
+0367	D002	Sprite 1 X-Pos (LSB)
+0368	D004	Sprite 2 X-Pos (LSB)
+0369	D006	Sprite 3 X-Pos (LSB)
+036A	D008	Sprite 4 X-Pos (LSB)
+036B	D00A	Sprite 5 X-Pos (LSB)
+036C	D00C	Sprite 6 X-Pos (LSB)
+036D	D00E	Sprite 7 X-Pos (LSB)
+
+0370	D001	Sprite 0 Y-Pos
+0371	D003	Sprite 1 Y-Pos
+0372	D005	Sprite 2 Y-Pos
+0373	D007	Sprite 3 Y-Pos
+0374	D009	Sprite 4 Y-Pos
+0375	D00B	Sprite 5 Y-Pos
+0376	D00D	Sprite 6 Y-Pos
+0377	D00F	Sprite 7 Y-Pos
+
+037A	D027	Sprite 0 Color
+037B	D028	Sprite 1 Color
+037C	D029	Sprite 2 Color
+037D	D02A	Sprite 3 Color
+037E	D02B	Sprite 4 Color
+037F	D02C	Sprite 5 Color
+0380	D02D	Sprite 6 Color
+0381	D02E	Sprite 7 Color

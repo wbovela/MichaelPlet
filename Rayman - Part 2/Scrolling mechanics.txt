@@ -1,0 +1,31 @@
+Screen:
+25.5cm x 20cm
+
+Rayman height:
+5cm
+
+Facing right:
+7.5cm from left edge
+
+Facing left:
+7.5cm from right edge
+
+When jumping, falling or flying:
+X scroll active to keep Rayman 7.5cm from left/right edge
+
+When on ground, falling, hanging or on cloud:
+6.5cm from bottom edge
+
+When crawling:
+7.5cm from bottom edge
+
+When jumping up:
+No action
+
+
+
+1. Facing left the go to 4
+
+2. Xpos - LeftEdge > 7.5cm? If No go to 4
+
+3. 

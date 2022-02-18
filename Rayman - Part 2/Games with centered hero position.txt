@@ -1,0 +1,19 @@
+Scrolling:
+-----------
+Jack the Nipper II
+Shadow of the Beast (No Y-scrolling when in a jump)
+Phantoms of the Asteroid
+Doctor Who and the Mines of Terror
+Chuck Rock
+Agent Uop
+Elvira II
+Hong Kong Phooey
+The Enforcer
+Battle Island
+Action Biker
+Paradroid
+Caverns of Eriban
+Force 7
+Dead Zone (No Y-scrolling when in a jump)
+James Pond 2 - Robocod (fixed column)
+Flimbo's Quest (fixed column)

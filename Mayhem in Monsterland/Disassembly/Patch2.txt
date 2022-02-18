@@ -1,0 +1,62 @@
+9E67  EA EA EA
+BF61  EA EA EA
+E589  EA EA EA
+
+
+
+356D  LDA $1B59       ; $MEM1				3
+3570  JSR $35AF       ; BIN2DEC			3
+3573  LDX #$2D				2
+3575  LDY $35AC       ; DIG0				3
+3578  JSR $389F				3
+357B  LDX #$2E				2
+357D  LDY $35AD       ; DIG1				3
+3580  JSR $389F				3
+3583  LDX #$2F				2
+3585  LDY $35AE       ; DIG2				3
+3588  JSR $389F				3
+
+358B  LDA $1B61       ; $MEM2
+358E  JSR $35AF       ; BIN2DEC
+3591  LDX #$AD
+3593  LDY $35AC       ; DIG0
+3596  JSR $389F
+3599  LDX #$AE
+359B  LDY $35AD       ; DIG1
+359E  JSR $389F
+35A1  LDX #$AF
+35A3  LDY $35AE       ; DIG2
+35A6  JSR $389F
+
+35A9  RTS
+
+VAL
+35AA  100									1
+35AB  10									1
+DIG
+DIG0
+35AC  0										1
+DIG1
+35AD  0										1
+DIG2
+35AE  0										1
+BIN2DEC
+35AF  LDX #0							2
+35B1  STX $35AC           ; DIG							3
+35B4  STX $35AD           ; DIG+1						3
+;      LDA BIN							3
+LOOP1
+35B7  LDY #9							2
+LOOP2
+35B9  CMP $35AA,X         ; VAL,X						3
+35BC  BCC $35C7           ; SKIP1						2
+35BE  SBC $35AA,X         ; VAL,X						3
+35C1  INC $35AC,X         ; DIG,X						3
+35C4  DEY									1
+35C5  BNE $35B9           ; LOOP2						2
+SKIP1
+35C7  INX									1
+35C8  CPX #2							2
+35CA  BNE $35B7           ; LOOP1						2
+35CC  STA $35AE           ; DIG,X						3
+35CF  RTS									1

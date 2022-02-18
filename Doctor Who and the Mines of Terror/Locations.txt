@@ -1,0 +1,25 @@
+Screen panel:		$0400
+Screen Splinx:		$0C00
+Screen 1 in-game:	$7800
+Screen 2 in-game:	$7C00
+
+Sprite pointers:
+$7BF8-$7BFF
+$7FF8-$7FFF
+
+Sprite pointers are written at:
+PC	D012
+8158	FB
+815B	FB
+8158	FD
+815B	FD
+8158	FE
+815B	FE
+8158	FB
+815B	FB
+Updated from 1D30,X
+
+1D31 is written at CC96 when D012 is 23
+
+Sprite 0 = Legs
+Sprite 1 = Head and torso

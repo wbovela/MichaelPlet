@@ -1,0 +1,421 @@
+1. MY FIRST ATTEMPT
+
+My first attempt used 4x4 blocks and double buffering. The visible window on the map was 38x17 chars.
+The map was 75x21 blocks (or 300x84 chars).
+It scrolled in 8 directions with parallax effect and scrolled Color RAM too.
+
+I had some trouble getting picking up items to work. I could easily delete the item from the map,
+but calculating the location of the item char on the screen didn't always work.
+Of course this had to do with the current scrolling direction. Double buffering didn't help either.
+At this point the code had gotten quite complicated because of lack of frame time, so colour scroll needed to be started mid frame.
+
+
+
+
+2. DIMENSIONS
+
+Another thing that bothered me was that the width/height ratio of the game screen didn't match that of Playstation.
+The window was much to elongated. The playstation map is 4800x1344 pixels and the window is 320x256 pixels.
+In other words the window is 1/15 x 4/21 of the map.
+Translated to the C64 map of 300x84 chars this would make the desired C64 window 20x16 chars (or 160x128 pixels).
+
+
+
+
+3. WHEN A PIXEL IS NOT JUST A PIXEL
+
+The above calculation doesn't take into account that a pixel on the C64 is more narrow than a Playstation pixel.
+They have different width/height ratios.
+
+On my TV the Playstation game screen measures 65cm x 48.4cm. This gives an overall  width/height ratio of 1.343.
+
+On my TV the C64 40x25 chars screen measures 55.8cm x 37.9cm. So each char is 1.395cm x 1.516cm.
+Therefore a 20x16 chars window would have a width/height ratio of 20 * 1.395 / (16 * 1.516) = 1.15023.
+
+For the C64 game window to have the same appearance as that of the Playstation, it must have the same overall ratio.
+This means that we must make the window wider (have more characters). If we stick with the height of 16 chars,
+the width can be calculated as width = 1.343 * 16 * 1.516 / 1.395. This gives a width of 23.35 or 23 chars.
+
+
+
+
+4. MAP SIZE
+
+If we were to go from a 20x16 to a 23x16 chars window this would have an impact on the map size.
+This is because, as described, the window is always 1/15 x 4/21 of the map.
+So if the window is 23x16, the map must be 23/(1/15) x 16/(4/21) or 345x84 chars.
+That is 45 chars wider than the 300x84 map we started out with.
+
+However, this poses a minor design problem. The Playstation map is made up of 16x16 pixel tiles.
+Divide this into the 4800x1344 pixels map and you get 300x84 blocks.
+For this reason it is easy to design graphics for a C64 map of the same size.
+For other sizes, things like slopes will not have repeating chars. This will make the design task more difficult.
+
+
+
+
+5. SCALING
+
+The reasons mentioned above suggest that the best solution is a 300x84 map. Despite the more squeezed look.
+This corresponds to the 20x16 chars window. The only reason against is that 20x16 chars is quite small on a C64 screen.
+We could upscale by a factor of 1.5 to get a window of 30x24 chars (utilising the entire height of the C64 screen).
+Doing that we would also need to change the map size accordingly to 450x126 chars.
+As this would still have the same width/height ratio as the 300x84 chars map, the design job wouldn't be too bad.
+
+
+
+
+6. EXPERIMENTING
+
+To begin with I tried to alter my first attempt to scroll a smaller window, going from 38x17 to 20x16.
+Even this proved difficult to implement because of the complicated code.
+Instead I started all over with a new project. This time with the intention of making it simple and focus on the gaming experience.
+That is prioritise movement of and interaction with objects over things like parallax effect and music.
+To further simplify, I also decided to try not to use blocks, but have the entire map in chars in memory. That is 300x84 chars or 25200 bytes.
+
+I tried to just draw a single 20x16 chars section of the map to the screen. That was surprisingly fast.
+Including the Color RAM update and started at the lower border, it was completed just as the top of the upper border was reached.
+This showed me that I could draw the window on every frame, so that I didn't have to scroll. Just set the map position and draw the window.
+
+But this was not the only benefit. As I could draw the window every frame with a lot of raster time to spare, I also wouldn't need double buffering.
+And because the window is only 20x16, I also wouldn't have to deal with MSB for sprite X positions.
+
+
+
+
+7. DECISION TIME
+
+It was tempting to try the 30x24 chars window as it would look more impressive. In that case the map is 450x126 chars.
+In memory this map would take up 450x126 = 56700 bytes, which s clearly not an option. So again I would have to use blocks.
+Drawing 30x24 chars from blocks would not be possible without double buffering. (Probably not even without Color RAM update.)
+So I would be back to my original code complexity. (But a 30x24 window would look better than my original 38x17 window.)
+For the reasons mentioned above, I will stick to the 300x84 chars map and the corresponding 20x16 chars window.
+
+
+
+
+8. SCROLLER SEAMS
+
+Having a small window and changing X-Scroll all the time, the vertical scroller seam is not hidden behind the right sideborder.
+It is a column of jitter in the middle of the screen. This is easy to hide with a sprite. To only sacrifice one sprite,
+I altered the Y position of the sprite (moving it down with the raster) by using a NMI interrupt from Timer A.
+
+For the horizontal scroller seam there are two scenarios:
+
+
+8a. WINDOW IN TOP HALF
+
+We are drawing 16 rows from the top of the screen and need to cover the lower scroller seam.
+In principle it should be simple to set an invalid mode at the desired raster line. This can be done by selecting both ECM and bitmap mode.
+The effect will be that no more chars are rendered until a valid mode is selected again. (A few rows down.)
+Chars are not rendered, but sprites are! So a sprite moving down wouldn't just slide behind the artificial border and be partially covered.
+Disabling a sprite via $D015 halfway thru its rendering has no effect. There are two ways we can stop the rendering of a sprite midway.
+One option is to change the sprite pointer to an empty sprite. But we would have to do that for all enabled sprites and that takes time.
+This leads us to the other option - switch to another screen location. Thereby changing all sprite pointers at once.
+So the best solution is to change screen location and at the same time set an invalid graphics mode.
+
+This leaves only one problem: Bad lines. Setting the illegal mode is fine, but doing it on a bad line has the effect delayed by one raster line.
+So there will be a flicker depending on Y-Scroll, which changes constantly as we move around the map.
+Maybe it is possible to do some special treatment if the raster IRQ coincides with a bad line.
+
+
+8b. WINDOW IN BOTTOM HALF
+We are drawing 16 rows from the middle of the screen and need to cover the upper scroller seam.
+The same facts as above applies, but in reverse. We want to be in an illegal mode before the 20x16 window and then set a legal mode,
+when the scroller seam has been hidden.
+For sprites around the scroller seam, we want only the lower part of the sprite to be visible. Again we can do this by switching screen location.
+This time we would begin with a screen where the sprite pointers point to an empty sprite and then change to the "real" screen location.
+
+In this case the Y-Scroll has a fixed value at the seam because we are not scrolling (and changing Y-Scroll) above the seam.
+So we can just choose to do the illegal mode and screen switching on a good line. This gives a perfect scroller seam.
+
+As a side note, we wouldn't have had any problems with the horizontal scroller seam if we had gone for the 30x24 chars window.
+Then chars and sprites would be hidden by the "real" top and bottom borders.
+
+
+
+
+9. SPRITE MOVEMENT AND SCROLLING ARE ONLY INDIRECTLY LINKED
+
+The scrolling and the game mechanics should be considered separate parts.
+Imagine that the screen is as big as the map in pixels (2400 x 672). Then there is no scrolling to worry about.
+
+Each object will have a set of 16-bit map coordinates in pixels. These coordinates will be updated as the object moves around.
+
+The scroller is then a window to the map. The top-left corner of the window on the map is also represented by a pair of 16-bit coordinates.
+To determine which objects are within this window, WindowX must be subtracted from each object's X-coordinate.
+If the result is between 0 and 159 (20 chars), the object's X-coordinate is within the bounds of the window.
+WindowY must be subtracted from the object's Y-coordinate.
+If the result is between 0 and 127 (16 chars), the object's Y-coordinate is within the bounds of the window.
+If the results of both subtractions are within the bounds of the window, the object should be shown.
+
+After moving Rayman (based on joystick, gravity, ...), scroll rules must be applied. If Rayman is facing right,
+his position should be in the left half of the window. It should be in the right half, if he is facing left.
+So as soon as you switch direction, scrolling will begin in order to catch up and adhere to the scroll rules.
+Scroll speed should also depend on whether the need is to scroll 1 pixel or more.
+If we need to scroll more than 1 pixel, we will scroll 2 at a time.
+
+
+
+
+10. COLLISION DETECTION
+
+Should Collision Detection just check or also move player?
+
+Should Collision Detection detect and react to items (collectables, damaging chars, ...)?
+
+Consider the following situation where we want to move right
+
+    O#
+    O+                     Here O = Player, # = Blocking char and + = Collectable
+
+Both # and + are checked by Collision Detection, but since we are blocked, we can't collect +.
+But Collision Detection can't know that if + is checked first!
+
+Should we first do Collision Detection and afterwards have another routine checking for items?
+That probably wouldn't work when jumping, because we may cover a big distance and pass thru an item without detecting it.
+
+I think the answer to the first two questions is YES. Collision Detection should check, move player and detect items.
+The way to check for items and avoid picking up + in the scenario above, must be to detect + and any other items.
+But just save them in a table without reacting to them. Then, if we find out we are not blocked, react to all items in the table.
+
+Experiments show that it is perfectly viable to do the table thing as described, but I have chosen the faster simple detection.
+That means checking and picking up char by char. If + is checked first, it's picked up. If # is checked first, we are blocked.
+
+
+
+
+11. WARNING TO SELF
+
+Let's say we want to add MAPSTART (LO/HI) and WinChrX (LO) to MAPADDR (LO/HI). Then we might try something like this
+
+        CLC
+        LDA MAPADDR_LO
+        ADC #<MAPSTART
+        ADC WinChrX
+        STA MAPADDR_LO
+        LDA MAPADDR_HI
+        ADC #>MAPSTART
+        STA MAPADDR_HI
+
+But this will not always work, because the Carry is added by the second ADC to the low byte instead of the high byte.
+Let's assume that MAPADDR = $05C0, MAPSTART = $13E0 and WinChrX = 20. Then we can write
+
+                                  A-Reg   Carry   MAPADDR_LO  MAPADDR_HI
+        CLC                               0       C0          05
+        LDA MAPADDR_LO            C0      0       C0          05
+        ADC #$E0                  A0      1       C0          05
+        ADC #$20                  C1      0       C0          05
+        STA MAPADDR_LO            C1      0       C1          05
+        LDA MAPADDR_HI            05      0       C1          05
+        ADC #$13                  18      0       C1          05
+        STA MAPADDR_HI            18      0       C1          18        <- MAPADDR should be $19C0
+
+
+
+
+12. MULTIPLICATION TABLE WITH MORE THAN 256 ENTRIES
+
+In a scrolling game it is quite common to have a table, indexed by map row, with the address of each map row.
+If the MapWidth is 300 (= $012C) and the MapHeight 84 (= $54), the table could look like this
+
+MAPTAB_LO
+        BYTE $00, $2C, $58, $84, $B0, ... , $44    (84 entries)
+MAPTAB_HI
+        BYTE $00, $01, $02, $03, $04, ... , $61    (84 entries)
+
+The table would be used like this
+
+        CLC
+        LDY WinChrY
+        LDA #<MAPSTART
+        ADC MAPTAB_LO,Y
+        STA MAPADDR_LO
+        LDA #>MAPSTART
+        ADC MAPTAB_HI,Y
+        STA MAPADDR_HI
+
+thus avoiding the multiplication WinChrY * MapWidth.
+
+This is all fine, but what if the map dimensions were reversed, that is MapWidth was 84 (= $54) and MapHeight was 300 (= $012C)?
+Then we would need a table with 300 entries. That would also require WinChrY to be a double byte. The table would be
+
+MAPTAB_LO
+        BYTE $00, $54, $A8, $FC, $50, ... , $1C    (300 entries)
+MAPTAB_HI
+        BYTE $00, $00, $00, $00, $01, ... , $62    (300 entries)
+
+But how do we index a table with 300 entries? Y-Reg can only hold a single byte.
+Well, by applying a little mathematics, we see that for the last map row (WinChrY = 299 = $012B)
+
+$621C = $012B * $0054
+
+      = ($0100 * $54) + ($2B * $54)
+
+      = ($54 * 256) + ($0E1C)
+
+      = ($54 * 256) + ($0E * 256 + $1C)
+
+      = ($54 * 256 + $0E * 256) + ($1C)
+
+This means that we can get away with using a table with only 256 entries. Here's how:
+
+MAPTAB_LO
+        BYTE $00, $54, $A8, $FC, $50, ... , $AC    (256 entries)
+MAPTAB_HI
+        BYTE $00, $00, $00, $00, $01, ... , $53    (256 entries)
+
+For the last map row WinChrY_LO = $2B and WinChrY_HI = $01.
+Use WinChrY_LO ($2B) to lookup both low byte and high byte. We get $0E1C.
+Now use WinChrY_HI ($01) to lookup the low byte. We get $54. Use this as the high byte, $5400.
+Add this to $0E1C and we get the correct address, $621C.
+
+The implementation could look like this
+
+        CLC
+        LDY WinChrY_LO
+        LDA MAPTABLO,Y
+        ADC #<MAPSTART
+        STA MAPADDR_LO
+        LDA MAPTABHI,Y
+        ADC #>MAPSTART
+        STA MAPADDR_HI
+        CLC
+        LDY WinChrY_HI
+        ADC MAPTABLO,Y
+        STA MAPADDR_HI
+
+
+
+
+13. PICKING UP ITEMS
+
+Items are chars that we can collect. Doing that we remove the char from the map.
+The problem is that if we restart the level, the item is no longer on the map.
+So we need a table of items locations(, X and Y,) and char codes.
+Every time we start a level, we must place all chars from the table on the map.
+
+Collecting an item may spawn another item. In this case, the char code of the new item must be added to the map.
+
+When an item is collected, the char must be replaced on the map with the relevant background char in the same position.
+
+The (parallax) background consists of 4 chars in this pattern:
+
+C8 CA
+C9 CB
+
+Which one of the 4 do we choose for replacing a picked up item?
+
+Well, since there are only 2 possibilities in X- and Y-direction, it depends on where the window coordinates on the map are even or odd.
+We can do it like this:
+
+        ; Calculate index to BackgroundChars table
+        LDA TmpChrX_LO
+        LSR
+        LDA TmpChrY_LO
+        AND #%00000001
+        ROL
+        TAX
+
+        ; Remove from map
+        LDA BackgroundChars,X
+...
+
+BackgroundChars
+        BYTE $C8, $CA
+        BYTE $C9, $CB
+
+
+
+
+14. RAYMAN'S FIST
+
+Rayman's Fist is his hand used as a bullet.
+
+In order to use his hand as a bullet, he must first build momentum by moving his hand in a circle.
+When he lets go, the hand fires off like a bullet. After travelling a certain distance or hitting an obstacle it returns to his body.
+The travelling distance depends on the momentum (, how long he circled the hand).
+If Rayman has collected the PowerFist, the travelling distance is longer.
+
+Momentum is built by pressing and holding the FIRE button.
+That is when the FIRE button goes from not pressed to pressed. (Can this be done during walking ???)
+Each frame FIRE is held, the MOMENTUM variable is increased by one. It can't exceed a certain value though.
+The circling hand is represented by a different sprite animation for Rayman himself.
+
+As soon as the FIRE button is released, the Fist sets off in the direction that Rayman is facing.
+That is when the FIRE button goes from pressed to not pressed.
+The travelling Fist is represented by a char. The color is white, unless Rayman has the PowerFist, in which case the color is yellow.
+On its way away from Rayman the Fist travels in a straight horisontal line.
+
+The Fist char is moved one char position every second frame. That is one char position on the map.
+All references to positions means map positions. Screen positions are handled by the drawing routine.
+The original char and color must be restored as the Fist moves to the next position.
+Before the Fist char is placed in a position the char currently in that position should be saved in a variable.
+
+The Fist can be blocked by foreground scenery. It can hit enemies, Cages, Hooks or some OneUps.
+When it hits something or is blocked, the Fist returns to Rayman.
+
+After throwing his fist, Rayman may have moved horisontally, vertically or both. So the Fist doesn't necessarily return in a straight line.
+It should home in on Rayman by minimising the distance to him.
+On the way back the Fist is not blocked by scenery, but can still hit enemies, Cages, Hooks or some OneUps.
+Rayman cannot throw his fist again before it has returned completely.
+
+The delay so that the Fist is only updated every second frame, can be implemented like this:
+
+        INC FIST_DELAY
+        LDA FIST_DELAY
+        AND #%00000001
+        STA FIST_DELAY
+        BEQ Fist_Time
+        RTS
+Fist_Time
+
+One important observation here is that the STA instruction is not necessary!
+We can just keep increasing FIST_DELAY. When we AND it with %00000001, we always get 0 or 1.
+
+
+
+
+15. OBJECTS (ENEMIES, ...)
+
+Objects are sprites (enemies or scenery) that should appear as the map is scrolled.
+The window position on the map is represented by a 16-bit X position and a 16-bit Y position,
+so it would be natural to represent object locations the same way.
+
+So we need an Object table containing position and type of all objects in the level.
+Each frame 8 entries in the Object table are checked for being in the visible window.
+The coordinates are simply subtracted from the window position.
+
+If the object should be visible, it is copied to the Actives table.
+Sprites are rendered from the Actives table.
+
+Each frame the entries in the Actives table are checked to see if they should still be visible.
+If yes, their positions and sprite pointers are updated. If no, they are removed from the Actives table.
+
+If some Actives comes into contact with special chars (looking like background, so invisible), they should change directtion.
+As these chars look like parallax rotated background chars, they must also be rotated. (Copied from the normal parallax chars.)
+
+Some Objects should not appear unless they are triggered (see below). So the Objects table has an Enabled indicator.
+
+
+
+
+16. TRIGGERS
+
+A trigger is when the player collides with something special and something happens.
+
+The trigger can be a certain char code that, though identical to background, initiates an event.
+Touching this char will be detected by Collision Detection, and the event initiated (eg. enemy appears or music begins).
+
+Another option is to use an invisible sprite (wasting a sprite) and let the sprite-sprite
+collision detection react to the collision.
+This type of trigger is an Object that is moved to Actives just like any other object.
+When Rayman touches the invisible sprite, it is replaced by the objects it triggers.
+That is, the triggered objects are enabled and the trigger is deactivated (and disabled).
+
+Steady spiky balls (not a disease) are 2x2 chars looking like the sprite version of a moving spiky ball.
+They hurt/kill Rayman. Some of them are triggered (, appearing out of nowhere).
+
+A trigger for these could be a char looking like background, but having a different char code.
+The problem with using a char looking like a (parallax rotated) background char, is that it must also be rotated.
+So it will probably be easier to use an invisible sprite.

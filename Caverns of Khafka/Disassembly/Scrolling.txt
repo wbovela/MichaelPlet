@@ -1,0 +1,12 @@
+L01505 ->< L00587	Scroll screen down	$99A2 ->< $3400
+L01507 ->< L00607	Scroll screen up		$99C2 ->< $34C0
+L00395 ->< L00622	Scroll screen right	$1FC0 ->< $3570
+L00399 ->< L00639	Scroll screen left	$1FE0 ->< $3640
+
+
+
+INC D016 <- L00622 <- L00395 <- L00199 <- L00150
+DEC D016 <- L00639 <- L00399 <- L00202 <- L00150
+
+INC D011 <- L00587 <- L01505 <- L00181 <- L00150
+DEC D011 <- L00607 <- L01507 <- L00185 <- L00150

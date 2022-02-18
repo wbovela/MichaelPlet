@@ -1,0 +1,74 @@
+Byte1, Byte2, Byte3, Byte4, Byte5
+
+---------------------------------
+
+Byte1 - TimeHI
+
+Byte2 - TimeLO
+
+Byte3 - Event/Channel:
+				80 - NoteOff Voice 1            $D404 (Gate=0)
+				81 - NoteOff Voice 2            $D40B (Gate=0)
+				82 - NoteOff Voice 3            $D412 (Gate=0)
+
+				90 - NoteOn  Voice 1            $D400, $D401,$D404 (Gate=1)
+				91 - NoteOn  Voice 2            $D407, $D408,$D40B (Gate=1)
+				92 - NoteOn  Voice 3            $D40E, $D40F,$D412 (Gate=1)
+
+        B0 - Volume                     $D418
+
+				C0 - Instr.  Voice 1            $D404 (Gate=0), $D402, $D403, $D404, $D405, $D406
+				C1 - Instr.  Voice 2            $D40B (Gate=0), $D409, $D40A, $D40B, $D40C, $D40D
+				C2 - Instr.  Voice 3            $D412 (Gate=0), $D410, $D411, $D412, $D413, $D414
+
+				E0 - Freq.   Voice 1            $D400, $D401
+				E1 - Freq.   Voice 2            $D407, $D408
+				E2 - Freq.   Voice 3            $D40E, $D40F
+
+        FF - EndOfSong
+
+Byte4 - 8X - Unused (Set Gate = 0)
+        9X - FreqLO
+        B0 - Volume
+        CX - Instr. No.
+        EX - FreqLO
+
+Byte5 - 8X - Unused
+        9X - FreqHI
+        B0 - Unused
+        CX - Unused
+        EX - FreqHI
+
+
+D400 54272 'Voice 1 Frequency Control (low byte)
+D401 54273 'Voice 1 Frequency Control (high byte)
+D402 54274 'Voice 1 Pulse Waveform Width (low byte)
+D403 54275 'Voice 1 Pulse Waveform Width (high nybble)
+D404 54276 'Voice 1 Control Register
+D405 54277 'Voice 1 Attack/Decay Register
+D406 54278 'Voice 1 Sustain/Release Control Register
+
+D407 54279 'Voice 2 Frequency Control (low byte)
+D408 54280 'Voice 2 Frequency Control (high byte)
+D409 54281 'Voice 2 Pulse Waveform Width (low byte)
+D40A 54282 'Voice 2 Pulse Waveform Width (high nybble)
+D40B 54283 'Voice 2 Control Register
+D40C 54284 'Voice 2 Attack/Decay Register
+D40D 54285 'Voice 2 Sustain/Release Control Register
+
+D40E 54286 'Voice 3 Frequency Control (low byte)
+D40F 54287 'Voice 3 Frequency Control (high byte)
+D410 54288 'Voice 3 Pulse Waveform Width (low byte)
+D411 54289 'Voice 3 Pulse Waveform Width (high nybble)
+D412 54290 'Voice 3 Control Register
+D413 54291 'Voice 3 Attack/Decay Register
+D414 54292 'Voice 3 Sustain/Release Control Register
+
+D415 54293 'Bits 0-2:  Low portion of filter cutoff frequency
+D416 54294 'Filter Cutoff Frequency (high byte)
+D417 54295 'Filter Resonance Control Register
+D418 54296 'Volume and Filter Select Register
+D419 54297 'Read Game Paddle 1 (or 3) Position
+D41A 54298 'Read Game Paddle 2 (or 4) Position
+D41B 54299 'Read Oscillator 3/Random Number Generator
+D41C 54300 'Envelope Generator 3 Output

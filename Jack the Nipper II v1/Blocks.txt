@@ -1,0 +1,40 @@
+              MapAdr   BlkNo       BlkDef
+Candle blocks:
+(8, 5)        $2318    $28 (40)    $1180
+(13, 5)       $231D    $28 (40)    $1180
+
+Ground spear blocks:
+(9, 6)        $23E9    $69 (105)   $1590
+(12, 6)       $23EC    $68 (104)   $1580
+
+Water:
+(193, 28)     $3681    $66 (102)   $1560
+
+
+$1F00 (7936)
+
+$0F00 (3840)
+
+Block $1180:   (Candles)
+00 54 57 00
+9F 56 55 9E    9E and 9F are modified
+7B 54 57 7B
+7C 56 55 7C
+
+Block $1590:   (Ground spears)
+00 00 00 00
+00 00 00 00
+00 00 00 00
+9B 9B 9C 9C    9B and 9C are modified
+
+Block $1580:   (Ground spears)
+00 00 00 00
+00 00 00 00
+00 00 00 00
+9C 9C 9A 9A    9A and 9C are modified
+
+Block $1560:   (Water)
+00 00 00 00
+00 00 00 00
+00 00 00 00
+94 95 96 95    94, 95 and 96 are modified

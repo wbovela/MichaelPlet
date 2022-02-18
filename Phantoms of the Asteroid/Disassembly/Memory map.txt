@@ -1,0 +1,34 @@
+0100-013F		Sprites
+0140-01D5		Init routine
+01D6-01FF		Stack area
+0200-02FF		Sprites
+0300-03FF		??? Data
+0400-07E7		Screen
+07F8-07FF		Sprite pointers
+0800-0DBF		Sprites
+0DC0-0FAD		Code
+0FAE-103D		??? Data
+103E-1093		Code
+1094-121C		??? Data
+121D-1223		Sprite X POS for end screen
+1224-122A		Sprite pointers for end screen
+122B-14AC		??? Data
+14AD-14AD		Remaining cubes (Initial value) = 36
+14AE-14BA		??? Data
+14BB-14BB		Initial FUEL amount
+14BC-14BC		Initial ENERGY amount
+14BD-14BD		Initial OXYGEN amount
+14BE-1FFF		??? Data
+2000-2FFF		Sprites
+3000-37FF		Charset 1
+3800-3FFF		Charset 2 (Blank)
+4000-40FF		Colour table
+4100-42F3		Code
+42F4-45FB		??? Data
+45FC-461B		Table of screen row addresses
+461C-4D26		Code
+4D27-5226		??? Data
+5227-
+8000-CFFF		Block definitions
+D000-DFFF		??? Music routine and data
+E000-FFBF		Map

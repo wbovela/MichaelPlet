@@ -1,0 +1,21 @@
+1. SCROLLIX = 4.
+
+2. Is player facing left? If YES then go to 7.
+
+3. Is player standing and XPOS < 144? If YES then SCROLLIX = 5. Go to 11.
+
+4. Is player crawling and XPOS < 136? If YES then SCROLLIX = 5. Go to 11.
+
+5. Is player standing and XPOS > 151? If YES then SCROLLIX = 3. Go to 11.
+
+6. Is player crawling and XPOS > 143? If YES then SCROLLIX = 3. Go to 11.
+
+7. Is player standing and XPOS < 208? If YES then SCROLLIX = 5. Go to 11.
+
+8. Is player crawling and XPOS < 200? If YES then SCROLLIX = 5. Go to 11.
+
+9. Is player standing and XPOS > 215? If YES then SCROLLIX = 3. Go to 11.
+
+10. Is player crawling and XPOS > 207? If YES then SCROLLIX = 3.
+
+11. 

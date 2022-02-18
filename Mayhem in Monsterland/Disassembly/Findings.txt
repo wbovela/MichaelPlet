@@ -1,0 +1,16 @@
+Slopes are constructed like this:
+
+0C 0C 0C 0C 0C 0C 0B 0A                                                                                  08 09 0C 0C 0C 0C 0C 0C
+                     03 04 05                                                                      00 01 02
+                           03 04 05                                                          00 01 02
+                                 03 04 05                                              00 01 02
+                                          0F 21 11 11 11 0C 0C 0C 0C 11 11 11 11 0D 0E
+
+
+I changed some chars in blocks to FF and let the screen redraw.
+Mayhem fell through the holes, but the enemies didn't.
+So the enemies don't do collision detection.
+
+I changed some chars on screen (but not in blocks) to FF and Mayhem fell through the holes.
+I changed some chars in blocks (but not on screen) to FF and Mayhem didn't fall.
+So Mayhem does collision detection against screen (not map).

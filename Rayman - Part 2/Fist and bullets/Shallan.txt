@@ -1,0 +1,28 @@
+https://shallan64.itch.io/doc-cosmos-2/devlog/77313/cartridges-and-bullet-time:
+
+
+Firstly there is the issue of the double buffering. If we were to just draw and
+update the bullets on the active buffer and ignore the back buffer, we would
+end up copying the bullets to both buffers and end up with bullet chars stuck all
+over the place. The solution here is quite simple. Whenever the screen data is
+copied between buffers the bullet chars first need to be cleared and then when
+the copy is complete they can be redrawn back to the screen. Likewise the same
+needs to happen before and after switching the buffers.
+
+Secondly as the bullets are chars they will replace the chars at the positions on screen.
+This means that at all times the bullets need to know what char was originally
+under its location and what color it was, so that when the clear and redraw
+explained above happens, it is done correctly. 
+
+Finally this method of using chars also means that there can be a large cutout around
+the bullet, if its background color does not match that of the map position it sits at.
+I managed to solve this by using a multi color bullet character, using MC1 and MC2
+for the actual bullet and then using foreground color to fill in the empty space.
+The code will then set this foreground color according to the color of the original
+char under the bullet.
+
+With the bullets in and functioning correctly the final piece is to make sure they are
+removed when they leave the screen either by themselves or as a result of the player
+scrolling them off. And also to make sure that the bullets are also removed when they
+hit something solid. In the second case we want the bullets to leave behind a kind of
+splash animation.

@@ -1,0 +1,42 @@
+80 2000 Back head facing right
+81 2040 Back torso facing right
+82 2080 Back legs facing right
+...
+98 2600 Man
+99 2640 Elevator cable/Rope
+9A 2680 Falling man torso
+9B 26C0 Falling man legs
+9C 2700 Running man
+...
+B5 2D40 Dying man
+B6 2D80 Dying man
+B7 2DC0 Dying man
+...
+BE 2F80 Token
+BF 2FC0 Loose rope
+C0 3000 Rock
+C1 3040 Beetle
+C2 3080 Beetle
+C3 30C0 Beetle
+C4 3100 Beetle
+C5 3140 Bat
+C6 3180 Bat
+C7 31C0 Zero/Token
+C8 3200 Egyptian dance
+C9 3240 Egyptian dance
+CA 3280 Egyptian dance
+CB 32C0 Egyptian dance
+CC 3300 Khafka mask
+CD 3340 Skeleton
+CE 3380 Skeleton
+CF 33C0 Gunshot
+
+
+Sprite 0 = Man head
+Sprite 1 = Man torso
+Sprite 2 = Man legs
+Sprite 3
+Sprite 4
+Sprite 5
+Sprite 6
+Sprite 7 = Key

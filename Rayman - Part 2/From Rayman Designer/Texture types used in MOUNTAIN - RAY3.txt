@@ -1,0 +1,11 @@
+00	Background
+01	Reactive
+03  45 degree down slope
+04	Low 30 degree up slope
+05	High 30 degree up slope
+06	High 30 degree down slope
+07	Low 30 degree down slope
+08	Death (Spikes)
+0E	Pass-through (from below)
+0F	Solid ground (Rock/grass)
+18	Instant death

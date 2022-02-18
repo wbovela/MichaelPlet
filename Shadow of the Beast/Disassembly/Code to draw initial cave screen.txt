@@ -1,0 +1,195 @@
+07AC  AD 23 BD           LDA $BD23
+07AF  85 14              STA $14
+07B1  AD 22 BD           LDA $BD22
+07B4  85 15              STA $15
+07B6  A9 00              LDA #$00
+07B8  85 0A              STA $0A
+07BA  A9 C0              LDA #$C0
+07BC  85 0B              STA $0B
+07BE  A9 0A              LDA #$0A
+07C0  85 0F              STA $0F
+07C2  A9 1E              LDA #$1E
+07C4  85 10              STA $10
+07C6  A9 03              LDA #$03
+07C8  85 11              STA $11
+07CA  A9 00              LDA #$00
+07CC  85 0C              STA $0C
+07CE  20 4B 43           JSR L00843
+
+                 ;________________________________________
+                 ;
+                 ;    Draw initial cave screen
+                 ;
+434B  A9 00      L00843  LDA #$00
+434D  85 0D              STA $0D
+434F  A9 00      L00844  LDA #$00
+4351  85 0E              STA $0E
+4353  A5 0C              LDA $0C
+4355  85 12              STA $12
+4357  A5 12      L00845  LDA $12
+4359  20 E8 44           JSR L00873
+435C  B1 21              LDA ($21),Y
+435E  AA                 TAX
+435F  A0 00              LDY #$00
+4361  BD 80 73           LDA $7380,X
+4364  91 0A              STA ($0A),Y
+4366  A0 01              LDY #$01
+4368  BD 80 74           LDA $7480,X
+436B  91 0A              STA ($0A),Y
+436D  A0 28              LDY #$28
+436F  BD 80 75           LDA $7580,X
+4372  91 0A              STA ($0A),Y
+4374  A0 29              LDY #$29
+4376  BD 80 76           LDA $7680,X
+4379  91 0A              STA ($0A),Y
+437B  A5 0A              LDA $0A
+437D  18                 CLC
+437E  69 50              ADC #$50
+4380  85 0A              STA $0A
+4382  90 02              BCC L00846
+4384  E6 0B              INC $0B
+4386  E6 12      L00846  INC $12
+4388  E6 0E              INC $0E
+438A  A5 0E              LDA $0E
+438C  C5 0F              CMP $0F
+438E  D0 C7              BNE L00845
+4390  A5 0A              LDA $0A
+4392  38                 SEC
+4393  E5 10              SBC $10
+4395  85 0A              STA $0A
+4397  A5 0B              LDA $0B
+4399  E5 11              SBC $11
+439B  85 0B              STA $0B
+439D  20 4C 44           JSR L00860
+43A0  E6 0D              INC $0D
+43A2  A5 0D              LDA $0D
+43A4  C9 14              CMP #$14
+43A6  D0 A7              BNE L00844
+43A8  60                 RTS
+
+                 ;________________________________________
+444C  EE 22 BD   L00860  INC $BD22
+444F  AD 22 BD           LDA $BD22
+4452  C9 15              CMP #$15
+4454  D0 15              BNE L00862
+4456  A9 01              LDA #$01
+4458  8D 22 BD           STA $BD22
+445B  AE 23 BD           LDX $BD23
+445E  E8                 INX
+445F  E0 2F              CPX #$2F
+4461  D0 05              BNE L00861
+4463  A9 FF              LDA #$FF
+4465  8D 24 BD           STA $BD24
+4468  8E 23 BD   L00861  STX $BD23
+446B  AD 3B BD   L00862  LDA $BD3B
+446E  0D 65 BD           ORA $BD65
+4471  D0 08              BNE L00863
+4473  20 F0 46           JSR L00908
+4476  90 03              BCC L00863
+4478  EE 29 BD           INC $BD29
+447B  60         L00863  RTS
+
+                 ;________________________________________
+44E8  18         L00873  CLC
+44E9  6D 46 BD           ADC $BD46
+44EC  C9 0A              CMP #$0A
+44EE  90 0F              BCC L00874
+44F0  38                 SEC
+44F1  E9 0A              SBC #$0A
+44F3  8D 1B 45           STA $451B
+44F6  AD 23 BD           LDA $BD23
+44F9  18                 CLC
+44FA  69 06              ADC #$06
+44FC  4C 05 45           JMP L00875
+44FF  8D 1B 45   L00874  STA $451B
+4502  AD 23 BD           LDA $BD23           ; MapX ???
+4505  AC 22 BD   L00875  LDY $BD22           ; MapY ???
+4508  0A                 ASL
+4509  AA                 TAX
+450A  BD BA 59           LDA $59BA,X         ; Table of addresses of map rows - LO byte
+450D  18                 CLC
+450E  79 C3 58           ADC $58C3,Y         ; Add #$0A * (Y - 1)
+4511  85 21              STA $21
+4513  BD BB 59           LDA $59BB,X         ; Table of addresses of map rows - HI byte
+4516  69 00              ADC #$00
+4518  85 22              STA $22
+451A  A0 09              LDY #$09            ; This value is changed in 44F3 and 44FF
+451C  60                 RTS
+
+                 ;________________________________________
+46F0  AD 65 BD   L00908  LDA $BD65
+46F3  F0 07              BEQ L00909
+46F5  A9 00              LDA #$00
+46F7  8D 28 BD           STA $BD28
+46FA  38                 SEC
+46FB  60                 RTS
+46FC  AD 29 BD   L00909  LDA $BD29
+46FF  0A                 ASL
+4700  0A                 ASL
+4701  A8                 TAY
+4702  AD 22 BD           LDA $BD22
+4705  D1 A6              CMP ($A6),Y
+4707  D0 4D              BNE L00913
+4709  C8                 INY
+470A  AD 23 BD           LDA $BD23
+470D  D1 A6              CMP ($A6),Y
+470F  D0 45              BNE L00913
+4711  C8                 INY
+4712  B1 A6              LDA ($A6),Y
+4714  85 1E              STA $1E
+4716  C8                 INY
+4717  B1 A6              LDA ($A6),Y
+4719  85 1F              STA $1F
+471B  20 5D 47           JSR L00914
+471E  90 06              BCC L00910
+4720  A9 00              LDA #$00
+4722  8D 28 BD           STA $BD28
+4725  60                 RTS
+4726  AD 25 BD   L00910  LDA $BD25
+4729  D0 24              BNE L00912
+472B  A9 01              LDA #$01
+472D  8D 25 BD           STA $BD25
+4730  AD 28 BD           LDA $BD28
+4733  8D 26 BD           STA $BD26
+4736  AD 04 BD           LDA $BD04
+4739  D0 09              BNE L00911
+473B  AD 06 BD           LDA $BD06
+473E  8D 27 BD           STA $BD27
+4741  4C 4F 47           JMP L00912
+4744  AD 06 BD   L00911  LDA $BD06
+4747  49 FF              EOR #$FF
+4749  18                 CLC
+474A  69 01              ADC #$01
+474C  8D 27 BD           STA $BD27
+474F  A9 00      L00912  LDA #$00
+4751  8D 28 BD           STA $BD28
+4754  38                 SEC
+4755  60                 RTS
+4756  A9 00      L00913  LDA #$00
+4758  8D 28 BD           STA $BD28
+475B  18                 CLC
+475C  60                 RTS
+
+                 ;________________________________________
+475D  A2 00      L00914  LDX #$00
+475F  A1 1E              LDA ($1E,X)
+4761  D0 02              BNE L00915
+4763  18                 CLC
+4764  60                 RTS
+4765  A2 08      L00915  LDX #$08
+4767  BD 96 BD   L00916  LDA $BD96,X
+476A  F0 0E              BEQ L00917
+476C  30 12              BMI L00918
+476E  A5 1E              LDA $1E
+4770  D5 8B              CMP $8B,X
+4772  D0 06              BNE L00917
+4774  A5 1F              LDA $1F
+4776  D5 8C              CMP $8C,X
+4778  F0 06              BEQ L00918
+477A  CA         L00917  DEX
+477B  CA                 DEX
+477C  10 E9              BPL L00916
+477E  18                 CLC
+477F  60                 RTS
+4780  38         L00918  SEC
+4781  60                 RTS

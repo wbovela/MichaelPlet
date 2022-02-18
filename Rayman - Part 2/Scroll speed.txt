@@ -1,0 +1,29 @@
+Scrolling one screen (at 25 frames/s) takes:
+
+	80 frames
+
+Since
+
+	1 frame = (1/25) s
+
+	25 frames = 1 s
+
+So scrolling one screen takes (in seconds):
+	80 frames = (80/25) s
+
+On C64 we have 50 frames/s, so scolling one screen takes (in frames) :
+
+	(80/25) s = (80/25) s * (50 frames/s) = 80 s * 50 frames / 25 s = 160 frames
+
+The screen on C64 is 20 chars x 15 chars, so we are scrolling 20 chars in 160 frames:
+
+Scroll speed = 20 chars / 160 frames = 20 chars * 8 (pixels/chars) / 160 frames
+
+             = 20 chars * 8 pixels / (1 chars * 160 frames) = 1 pixel / frame
+
+
+Scrolling one screen up when riding on a cloud takes 60 frames.
+On C64 that would be 120 frames scrolling 15 chars.
+That is 1 pixel / frame
+
+Falling is quicker - more than 1 pixel / frame - probably 2

@@ -1,0 +1,10 @@
+Sprites1:       16384	$4000-$43FF
+Screen1:	17408	$4400
+Screen2:	18432	$4800
+Sprites2:	19456	$4C00-$77FF
+Chars:		30720	$7800-$7FFF
+Blocks:		32777	$8009
+Color Table:	35072	$8900-$89FF
+Map:		35328	$8A00-$8FFF
+
+Mayhem sprite pointers $30-$67

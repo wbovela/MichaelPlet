@@ -1,0 +1,4 @@
+00 Background Color Register 0		Black
+01 Background Color Register 1		Medium Gray
+10 Background Color Register 2		Orange
+11 lower three bits of color RAM	Blue

@@ -1,0 +1,12 @@
+At title screen:
+BA 6190 X
+
+At breakpoint:
+
+BR 0
+
+M AA
+00AA 04 1D 07 1E ...
+
+Change to
+00AA 00 00 00 00 ...

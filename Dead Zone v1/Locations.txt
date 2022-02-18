@@ -1,0 +1,6 @@
+						In-Game				Status panel		Intro					HI-Score
+Screen			1024	$0400
+Charset			2048	$0800
+Mode				Multicolor
+
+Sprites 1		8192-16383	$2000-$3FFF

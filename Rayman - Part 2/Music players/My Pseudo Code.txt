@@ -1,0 +1,110 @@
+Init:
+
+Ptr = Start
+Tick = 0
+
+----
+
+Play:
+
+L0001:
+
+If (Ptr) < Tick Then
+	Ptr = Ptr + 5
+	Go To L0001
+End If
+
+L0002:
+
+If (Ptr) > Tick Then
+	Tick = Tick + 1
+	Exit Sub
+End If
+
+If (Ptr + 2) AND $F0 = $90 Then
+	'X = (Ptr + 2) AND $0F
+	'A = (Ptr + 3)
+	'FRLOREG,X = A
+	'A = (Ptr + 4)
+	'FRHIREG,X = A
+	'A = CURVOICE,X
+	'CTRLREG,X = A AND $F1
+	'Ptr = Ptr + 5
+	'Go To L0002
+
+	A = (Ptr + 2)
+	A = A AND $0F
+	Y = A
+	X = CHANNEL,Y
+	A = (Ptr + 3)
+	$D400,X = A
+	A = (Ptr + 4)
+	$D401,X = A
+	A = CURVOICE,X
+	A = A OR #$01
+	$D404,X = A
+	Ptr = Ptr + 5
+	Go To L0002
+End If
+
+If (Ptr + 2) AND $F0 = $80 Then
+	X = (Ptr + 2) AND $0F
+	A = CURVOICE,X
+	CTRLREG,X = A AND $F0
+	Ptr = Ptr + 5
+	Go To L0002
+End If
+
+If (Ptr + 2) AND $F0 = $E0 Then
+	X = (Ptr + 2) AND $0F
+	A = (Ptr + 3)
+	FRLOREG,X = A
+	A = (Ptr + 4)
+	FRHIREG,X = A
+	Ptr = Ptr + 5
+	Go To L0002
+End If
+
+If (Ptr + 2) AND $F0 = $C0 Then
+	X = (Ptr + 2) AND $0F
+	Y = (Ptr + 3)
+	A = CURVOICE,X
+	CTRLREG,X = A AND #$FE
+	A = WFRM,Y
+	CURVOICE,X = A
+	CTRLREG,X = A
+	A = ATDC,Y
+	ATDCREG,X = A
+	A = SSRL,Y
+	SSRLREG,X = A
+	A = PULO,Y
+	PULOREG,X = A
+	A = PUHI,Y
+	PUHIREG,X = A
+	Ptr = Ptr + 5
+	Go To L0002
+End If
+
+If (Ptr + 2) = $B0 Then
+	$D418 =(Ptr + 3) AND 15
+	Ptr = Ptr + 5
+	Go To L0002
+End If
+
+If (Ptr + 2) = $FF Then
+	Tick = 0
+	Ptr = Start
+	Go To L0002
+End If
+
+----
+
+CHANNEL $00, $07, $0E
+
+FRLOREG $D400, $D407, $D40E
+FRHIREG $D401, $D408, $D40F
+PULOREG $D402, $D409, $D410
+PUHIREG $D403, $D40A, $D411
+CTRLREG $D404, $D40B, $D412
+ATDCREG $D405, $D40C, $D413
+SSRLREG $D406, $D40D, $D414

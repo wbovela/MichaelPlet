@@ -1,0 +1,3 @@
+Song -> Track1 -> Pattern List 1 -> Note Sequence 1
+        Track2 -> Pattern List 2 -> Note Sequence 2
+        Track3 -> Pattern List 3 -> Note Sequence 3

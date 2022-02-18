@@ -1,0 +1,4 @@
+- There is a hidden message on the map saying "COPYRIGHT 1985 MARTIN AND RICHARD"
+- The blocks are big, 10x8 characters
+- You use a blank character set to hide the scroller seam
+- Physical scrolling is not done in interrupts

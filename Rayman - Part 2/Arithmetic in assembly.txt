@@ -1,0 +1,110 @@
+Incrementing a double byte number:
+----------------------------------
+INC NUMBER
+BNE SKIP
+INC NUMBER+1
+SKIP xxxx
+
+Decrementing a double byte number:
+----------------------------------
+SEC
+LDA NUMBER
+SBC #1
+STA NUMBER
+BCS SKIP
+DEC NUMBER+1
+SKIP xxxx
+
+Adding two single byte numbers:
+-------------------------------
+LDA #0
+STA SUM+1
+CLC
+LDA NUMBER1
+ADC NUMBER2
+STA SUM
+BCC SKIP
+INC SUM+1
+SKIP xxxx
+
+Adding a single byte number to a double byte number:
+----------------------------------------------------
+CLC
+LDA NUMBER1
+ADC NUMBER2
+STA NUMBER1
+BCC SKIP
+INC NUMBER1+1
+SKIP xxxx
+
+Adding two double byte numbers:
+-------------------------------
+CLC
+LDA NUMBER1
+ADC NUMBER2
+STA RESULT
+LDA NUMBER1+1
+ADC NUMBER2+1
+STA RESULT+1
+
+Subtracting a single byte number from a double byte number:
+-----------------------------------------------------------
+SEC
+LDA NUMBER1
+SBC NUMBER2
+STA NUMBER1
+BCS SKIP
+DEC NUMBER1+1
+SKIP xxxx
+
+Subtracting a double byte number from a double byte number:
+-----------------------------------------------------------
+SEC
+LDA NUMBER1
+SBC NUMBER2
+STA RESULT
+LDA NUMBER1+1
+SBC NUMBER2+1
+STA RESULT+1
+
+Multiplying a double byte number by 2:
+--------------------------------------
+ASL LOWBYTE
+ROL HIGHBYTE
+
+Multiplying a double byte number by 3:
+--------------------------------------
+LDA NUMBER+1
+PHA
+LDA NUMBER
+ASL
+ROL NUMBER+1
+CLC
+ADC NUMBER
+STA RESULT
+PLA
+ADC NUMBER+1
+STA RESULT+1
+
+Multiplying a double byte number by 4:
+--------------------------------------
+ASL LOWBYTE
+ROL HIGHBYTE
+ASL LOWBYTE
+ROL HIGHBYTE
+
+Multiplying a double byte number by 5:
+--------------------------------------
+LDA NUMBER+1
+PHA
+LDA NUMBER
+ASL
+ROL NUMBER+1
+ASL
+ROL NUMBER+1
+CLC
+ADC NUMBER
+STA RESULT
+PLA
+ADC NUMBER+1
+STA RESULT+1

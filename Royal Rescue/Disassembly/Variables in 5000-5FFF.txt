@@ -1,0 +1,78 @@
+Instr	Value			Var.		Comment
+
+0D31	#$07			5018		Sprite 0 Color
+0D36	#$01			5020
+0D3B	#$00			5028
+0D3E	#$00			5030
+1A11	#$00			50E8		Calculated value
+1A18	#$00			50C0		Calculated value
+197F	#$00			50E0		Calculated value
+1986	#$00			50B8		Calculated value
+1A5B	$5008			50A8		#$FF
+1A65	$5010			50B0		#$FF
+1BA9	#$FF			5100		Calculated value (Frequency)
+1BA9	#$00			5100		Calculated value (Frequency)
+0D7C	#$B9			50A0		Hero Y-POS
+0D7C	#$B9			50A0		Hero Y-POS
+1BA9	#$FF			5100		Calculated value (Frequency)
+1BA9	#$00			5100		Calculated value (Frequency)
+1BA9	#$FF			5100		Calculated value (Frequency)
+1BA9	#$00			5100		Calculated value (Frequency)
+1BA9	#$FF			5100		Calculated value (Frequency)
+1BA9	#$00			5100		Calculated value (Frequency)
+1BA9	#$FF			5100		Calculated value (Frequency)
+1BA9	#$00			50F9		Calculated value (Frequency)
+0DAB	$B4				5098		Hero X-POS
+0DB0	$B5				50A0		Hero Y-POS
+1957	$1943			5000		Start frame walking right, #$21, $193F,X
+1960	$1948			5010		Walking right cycle length, #$02, $1944,X
+1963	$5010			50B0		Animation length
+1968	#$04			5008
+196D	#$00			50A8
+1A11	#$00			50E8		Calculated value
+1A18	#$00			50C0		Calculated value
+197F	#$01			50E0		Calculated value
+1986	#$00			50B8		Calculated value
+0F7F	$1059			5001		#$32, $0FF9,Y
+0F7F	$105A			5009		#$00, $0FF9,Y
+0F7F	$105B			5011		#$01, $0FF9,Y
+0F7F	$105C			5019		#$05, $0FF9,Y
+0F7F	$105D			5021		#$01, $0FF9,Y
+0F7F	$105E			5029		#$00, $0FF9,Y
+0F7F	$105F			5031		#$00, $0FF9,Y
+0F7F	$1060			5039		#$01, $0FF9,Y
+0F7F	$1061			5041		#$00, $0FF9,Y
+0F7F	$1062			5049		#$06, $0FF9,Y
+0F7F	$1063			5051		#$05, $0FF9,Y
+0F7F	$1064			5059		#$00, $0FF9,Y
+0F92	$1194			5099		#$18, ($F9),Y
+0F98	$1195			50A1		#$48, ($F9),Y
+0FAC	#$00			5061		Calculated from $1196
+0FB8	#$00			5069		Calculated from $1196
+0FBE	$1197			5091		#$00
+0FD2	$1249			5071		#$2D
+0FD2	$124A			5079		#$D2
+0FD2	$124B			5081		#$0C
+0FD2	$124C			5089		#$A0
+1A11	#$00			50E9		Calculated value
+1A18	#$00			50C1		Calculated value
+197F	#$00			50E1		Calculated value
+1986	#$00			50B9		Calculated value
+1A5B	$5009			50A9		#$00
+1A65	$5011			50B1		#$01
+0F7F	$1059			5002		#$32, ($F9),Y
+0F7F	$105A			500A		#$00, ($F9),Y
+0F7F	$105B			5012		#$01, ($F9),Y
+0F7F	$105C			501A		#$05, ($F9),Y
+0F7F	$105D			5022		#$01, ($F9),Y
+0F7F	$105E			502A		#$00, ($F9),Y
+0F7F	$105F			5032		#$00, ($F9),Y
+0F7F	$1060			503A		#$01, ($F9),Y
+0F7F	$1061			5042		#$00, ($F9),Y
+0F7F	$1062			504A		#$06, ($F9),Y
+0F7F	$1063			5052		#$05, ($F9),Y
+0F7F	$1064			505A		#$00, ($F9),Y
+0F92	$1199			509A		#$2C, ($F9),Y
+0F98	$119A			50A2		#$48, ($F9),Y
+0FAC	#$00			5062		Calculated from $119B
+0FB8	#$00			506A		Calculated from $119B

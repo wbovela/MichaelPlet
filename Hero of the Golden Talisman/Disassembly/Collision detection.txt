@@ -1,0 +1,17 @@
+Collision detection is not used for:
+---
+1. Check if man is standing on firm ground
+2. Check if man hits wall
+3. Check if man touch rope
+4. Check if man touch object
+
+
+SPRITE-BACKGROUND COLLISION:
+---
+1. Check if moving wall hits man
+2. Check if bullet hits enemy
+
+
+SPRITE-SPRITE COLLISION:
+---
+1. Check if man and enemy touch

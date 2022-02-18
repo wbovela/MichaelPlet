@@ -1,0 +1,46 @@
+4,4											4,4											4,4
+
+			2,2								4,2								6,2
+																					*
+						0,0					4,0					0,0
+						*	*						*						*
+									6,6		4,6		2,6
+
+4,4		2,4		0,4		6,4		4,4		2,4		0,4		6,4		4,4
+						*															*
+									6,2		4,2		2,2
+
+						0,0					4,0					0,0
+						*
+			2,6								4,6								6,6
+				*									*								*	*
+4,4											4,4											4,4
+
+
+
+
+
+
+
+
+ACTION
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 0
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 1
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 2
+        BYTE 0, 1, 2, 0                ; SCROLLIX = 3
+        BYTE 0, 0, 0, 0                ; SCROLLIX = 4
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 5
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 6
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 7
+        BYTE 1, 2, 0, 0                ; SCROLLIX = 8
+
+SCROLLS
+        BYTE 2, 2, 0, 0, 6, 6, 4, 4    ; SCROLLIX = 0
+        BYTE 4, 2, 4, 0, 4, 6, 4, 4    ; SCROLLIX = 1
+        BYTE 6, 0, 0, 6, 2, 4, 4, 3    ; SCROLLIX = 2
+        BYTE 2, 4, 0, 4, 6, 4, 4, 4    ; SCROLLIX = 3
+        BYTE 4, 4, 4, 4, 4, 4, 4, 4    ; SCROLLIX = 4
+        BYTE 6, 4, 0, 4, 2, 4, 4, 4    ; SCROLLIX = 5
+        BYTE 0, 6, 6, 0, 4, 2, 3, 4    ; SCROLLIX = 6
+        BYTE 4, 6, 4, 0, 4, 2, 4, 4    ; SCROLLIX = 7
+        BYTE 6, 6, 0, 0, 2, 2, 4, 4    ; SCROLLIX = 8

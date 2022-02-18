@@ -1,0 +1,1080 @@
+00001  0000             ; VARIABLES
+00002  0001             XSCROLLFINE = $06
+00003  0001             XSCROLLDISP = $07
+00004  0001             SCROLLDIR  = $08
+00005  0001             SCREEN     = $09
+00006  0001             NEXTFOREMAPPTRLO = $0F
+00007  0001             NEXTFOREMAPPTRHI = $10
+00008  0001             FOREMAPPTRLO = $11
+00009  0001             FOREMAPPTRHI = $12
+00010  0001             JOYDIR     = $14
+00011  0001             JOYBYTE    = $1C
+00012  0001             
+00013  0001             ; CONSTANTS
+00014  0001             STARTMAPPTR = $00B6
+00015  0001             
+00016  0001             
+00017  0001                        * = $0800
+00018  0800  00 0C 08              BYTE $00,$0C,$08,$0A,$00,$9E,$20,$32 ; ENCODE '10 SYS 2064'
+00019  0808  30 36 34              BYTE $30,$36,$34,$00,$00,$00,$00,$00
+00020  0810             
+00021  0810  78                    SEI
+00022  0811             
+00023  0811                        ; DISABLE CIA INTERRUPTS
+00024  0811  A9 7F                 LDA #$7F
+00025  0813  8D 0D DC              STA $DC0D
+00026  0816  8D 0D DD              STA $DD0D
+00027  0819             
+00028  0819                        ; ENABLE RASTER INTERRUPTS
+00029  0819  A9 01                 LDA #$01
+00030  081B  8D 1A D0              STA $D01A
+00031  081E             
+00032  081E                        ; SET IRQ
+00033  081E  A9 DA                 LDA #<IRQ0
+00034  0820  A2 08                 LDX #>IRQ0
+00035  0822  8D FE FF              STA $FFFE
+00036  0825  8E FF FF              STX $FFFF
+00037  0828             
+00038  0828                        ; SET LINE
+00039  0828  AD 11 D0              LDA $D011
+00040  082B  29 7F                 AND #$7F                ; CLEAR RASTER HI BIT
+00041  082D  8D 11 D0              STA $D011
+00042  0830  A9 00                 LDA #0                  ; NEXT IRQ IN RASTER LINE 0
+00043  0832  8D 12 D0              STA $D012
+00044  0835             
+00045  0835                        ; BANK OUT KERNAL AND BASIC
+00046  0835  A9 35                 LDA #$35
+00047  0837  85 01                 STA $01
+00048  0839             
+00049  0839             
+00050  0839  20 4D 0D              JSR INITSTATUSAREA
+00051  083C             
+00052  083C  A2 B6                 LDX #<STARTMAPPTR
+00053  083E  A0 00                 LDY #>STARTMAPPTR
+00054  0840  86 11                 STX FOREMAPPTRLO        ; FOREGROUND MAP POINTER LO
+00055  0842  84 12                 STY FOREMAPPTRHI        ; FOREGROUND MAP POINTER HI
+00056  0844  86 0F                 STX NEXTFOREMAPPTRLO
+00057  0846  84 10                 STY NEXTFOREMAPPTRHI
+00058  0848             
+00059  0848  AD 00 DD              LDA $DD00
+00060  084B  29 FC                 AND #$FC                ; BANK #3, $C000-$FFFF, 49152-65535
+00061  084D  09 02                 ORA #$02
+00062  084F  8D 00 DD              STA $DD00
+00063  0852             
+00064  0852  A0 00                 LDY #$00
+00065  0854  84 06                 STY XSCROLLFINE
+00066  0856  C8                    INY
+00067  0857  84 09                 STY SCREEN
+00068  0859  A9 86                 LDA #$86
+00069  085B  85 0C                 STA $0C                 ; SCREEN AND CHARSET
+00070  085D  A9 10                 LDA #$10
+00071  085F  85 0B                 STA $0B                 ; XSCROLL
+00072  0861  A9 60                 LDA #$60
+00073  0863  85 0D                 STA $0D
+00074  0865  49 04                 EOR #$04
+00075  0867  85 0E                 STA $0E
+00076  0869             
+00077  0869  A0 FF                 LDY #$FF
+00078  086B  84 08                 STY SCROLLDIR           ; LEFT = #$01, RIGHT = #$FF
+00079  086D  A0 00                 LDY #$00
+00080  086F  84 14                 STY JOYDIR
+00081  0871  8C F0 09              STY SWITCH+1
+00082  0874             
+00083  0874  A6 0C                 LDX $0C                 ; SCREEN AND CHARSET
+00084  0876  A4 0B                 LDY $0B                 ; XSCROLL
+00085  0878  8C 16 D0              STY $D016               ; WRITE X-SCROLL
+00086  087B  8E 18 D0              STX $D018               ; SELECT SCREEN AND CHARSET
+00087  087E             
+00088  087E  A9 00                 LDA #$00
+00089  0880  8D 20 D0              STA $D020
+00090  0883             
+00091  0883  A9 0E                 LDA #$0E                ; LIGHT BLUE
+00092  0885  A2 09                 LDX #$09                ; BROWN
+00093  0887  A0 0A                 LDY #$0A                ; LIGHT RED
+00094  0889  8D 21 D0              STA $D021               ; BACKGROUND COLOR
+00095  088C  8E 22 D0              STX $D022               ; BACKGROUND COLOR 1
+00096  088F  8C 23 D0              STY $D023               ; BACKGROUND COLOR 2
+00097  0892  A9 00                 LDA #$00
+00098  0894  85 06                 STA XSCROLLFINE
+00099  0896             
+00100  0896  A4 0D                 LDY $0D
+00101  0898  20 8E 0A              JSR DRAWSCREEN
+00102  089B             
+00103  089B  20 0E 0C              JSR UPDATECOLORRAM
+00104  089E             
+00105  089E  20 DD 0C              JSR UPDATECOLORRAM2ROWS
+00106  08A1             
+00107  08A1             
+00108  08A1                        ; ACKNOWLEDGE INTERRUPT
+00109  08A1  0E 19 D0              ASL $D019
+00110  08A4  58                    CLI
+00111  08A5             
+00112  08A5  4C AF 08              JMP DODRAW
+00113  08A8             
+00114  08A8                        ;________________________________________
+00115  08A8                        ;
+00116  08A8                        ;    GAME LOOP
+00117  08A8                        ;
+00118  08A8  A9 00      DRAW       LDA #$00                ; THIS VALUE IS CHANGED IN 16AB (#$00), 18A7 (#$04) AND 18B6 (#$02)
+00119  08AA  D0 03                 BNE DODRAW
+00120  08AC  4C A8 08              JMP DRAW
+00121  08AF  A9 00      DODRAW     LDA #$00
+00122  08B1  8D A9 08              STA DRAW+1              ; FLAG: DRAW FROM MAP TO SCREEN = FALSE
+00123  08B4  A5 0F                 LDA NEXTFOREMAPPTRLO
+00124  08B6  38                    SEC
+00125  08B7  A4 08                 LDY SCROLLDIR           ; LEFT = #$01, RIGHT = #$FF
+00126  08B9  10 0D                 BPL @LEFT
+00127  08BB  69 00                 ADC #$00
+00128  08BD  85 11                 STA FOREMAPPTRLO
+00129  08BF  A5 10                 LDA NEXTFOREMAPPTRHI
+00130  08C1  69 00                 ADC #$00
+00131  08C3  85 12                 STA FOREMAPPTRHI
+00132  08C5  4C D2 08              JMP @SKIP
+00133  08C8  E9 01      @LEFT      SBC #$01
+00134  08CA  85 11                 STA FOREMAPPTRLO
+00135  08CC  A5 10                 LDA NEXTFOREMAPPTRHI
+00136  08CE  E9 00                 SBC #$00
+00137  08D0  85 12                 STA FOREMAPPTRHI
+00138  08D2  A4 0E      @SKIP      LDY $0E
+00139  08D4  20 8E 0A              JSR DRAWSCREEN          ; DRAW FROM MAP TO SCREEN. THIS IS CALLED WHEN THE SCREEN NEEDS TO BE UPDATED (MOVING) (IRQ IS 19D4, RASTER = 51/52)
+00140  08D7  4C A8 08              JMP DRAW
+00141  08DA             
+00142  08DA             
+00143  08DA                        ;________________________________________
+00144  08DA                        ;
+00145  08DA                        ;    IRQ HANDLER FOR RASTER LINE 0
+00146  08DA                        ;
+00147  08DA             IRQ0
+00148  08DA                        ; SAVE STATE
+00149  08DA  48                    PHA
+00150  08DB  8A                    TXA
+00151  08DC  48                    PHA
+00152  08DD  98                    TYA
+00153  08DE  48                    PHA
+00154  08DF             
+00155  08DF             
+00156  08DF  A6 0C                 LDX $0C                 ; SCREEN AND CHARSET
+00157  08E1  A4 0B                 LDY $0B                 ; XSCROLL
+00158  08E3  AD 00 DD              LDA $DD00
+00159  08E6  29 FC                 AND #$FC                ; BANK #3, $C000-$FFFF, 49152-65535
+00160  08E8  09 02                 ORA #$02
+00161  08EA  8D 00 DD              STA $DD00
+00162  08ED  A9 00                 LDA #$00
+00163  08EF  85 14                 STA JOYDIR
+00164  08F1  8C 16 D0              STY $D016               ; WRITE X-SCROLL
+00165  08F4  8E 18 D0              STX $D018               ; SELECT SCREEN AND CHARSET
+00166  08F7  A9 0E                 LDA #$0E                ; LIGHT BLUE
+00167  08F9  A2 09                 LDX #$09                ; BROWN
+00168  08FB  A0 0A                 LDY #$0A                ; LIGHT RED
+00169  08FD  8D 21 D0              STA $D021               ; BACKGROUND COLOR
+00170  0900  8E 22 D0              STX $D022               ; BACKGROUND COLOR 1
+00171  0903  8C 23 D0              STY $D023               ; BACKGROUND COLOR 2
+00172  0906             
+00173  0906  20 EC 0C              JSR SHOWVARIABLES
+00174  0909             
+00175  0909                        ; READ JOYSTICK
+00176  0909  A9 00      READJOY    LDA #$00
+00177  090B  F0 05                 BEQ NOREAD
+00178  090D  AD 00 DC              LDA $DC00               ; JOYSTICK PORT A
+00179  0910  85 1C                 STA JOYBYTE
+00180  0912  AD 0A 09   NOREAD     LDA READJOY+1           ; READ ON NEXT FRAME
+00181  0915  49 01                 EOR #$01
+00182  0917  8D 0A 09              STA READJOY+1
+00183  091A  A5 1C                 LDA JOYBYTE
+00184  091C  29 08                 AND #$08                ; IF NOT BIT 3 OFF
+00185  091E  D0 04                 BNE NOTRIGHT
+00186  0920  A9 01                 LDA #$01                ; RIGHT
+00187  0922  85 14                 STA JOYDIR              ; LEFT = #$FF, RIGHT = #$01
+00188  0924             NOTRIGHT
+00189  0924  A5 1C                 LDA JOYBYTE
+00190  0926  29 04                 AND #$04                ; IF NOT BIT 2 OFF
+00191  0928  D0 04                 BNE NOTLEFT
+00192  092A  A9 FF                 LDA #$FF                ; LEFT
+00193  092C  85 14                 STA JOYDIR              ; LEFT = #$FF, RIGHT = #$01
+00194  092E             NOTLEFT
+00195  092E  A9 00                 LDA #$00
+00196  0930  85 07                 STA XSCROLLDISP
+00197  0932  A5 14                 LDA JOYDIR              ; LEFT = #$FF, RIGHT = #$01
+00198  0934  30 1D                 BMI L00170
+00199  0936  D0 03                 BNE L00166
+00200  0938  4C 6D 09              JMP L00176
+00201  093B             
+00202  093B                        ; JOYDIR = RIGHT
+00203  093B  A5 0F      L00166     LDA NEXTFOREMAPPTRLO    ; CHECK FOR REACHING END OF MAP (HIGHEST FOREGROUND MAP POINTER = #$0168)
+00204  093D  C9 68                 CMP #$68
+00205  093F  D0 0A                 BNE NOTATENDOFMAP
+00206  0941  A5 10                 LDA NEXTFOREMAPPTRHI
+00207  0943  F0 06                 BEQ NOTATENDOFMAP
+00208  0945  A9 00                 LDA #$00                ; REACHED END OF MAP AND HIGHEST XPOS FOR FLIMBO. DON'T MOVE!
+00209  0947  85 14                 STA JOYDIR
+00210  0949  F0 22                 BEQ L00176
+00211  094B             
+00212  094B             NOTATENDOFMAP 
+00213  094B  A5 08                 LDA SCROLLDIR           ; LEFT = #$01, RIGHT = #$FF
+00214  094D  30 1A                 BMI L00174
+00215  094F  A9 FF                 LDA #$FF                ; SCROLL DIRECTION = RIGHT
+00216  0951  30 18                 BMI L00175              ; UNCONDITIONAL BRANCH
+00217  0953             
+00218  0953                        ; JOYDIR = LEFT
+00219  0953  A5 0F      L00170     LDA NEXTFOREMAPPTRLO
+00220  0955  D0 0A                 BNE NOTATSTARTOFMAP
+00221  0957  A5 10                 LDA NEXTFOREMAPPTRHI
+00222  0959  D0 06                 BNE NOTATSTARTOFMAP
+00223  095B  A0 00                 LDY #$00                ; REACHED BEGINNING OF MAP AND FLIMBOXPOS IS #MINXPOS. DON'T MOVE!
+00224  095D  84 14                 STY JOYDIR
+00225  095F  F0 0C                 BEQ L00176              ; UNCONDITIONAL BRANCH
+00226  0961             
+00227  0961             NOTATSTARTOFMAP 
+00228  0961  A5 08                 LDA SCROLLDIR           ; LEFT = #$01, RIGHT = #$FF
+00229  0963  10 04                 BPL L00174
+00230  0965  A9 01                 LDA #$01                ; SCROLL DIRECTION = LEFT
+00231  0967  D0 02                 BNE L00175              ; UNCONDITIONAL BRANCH
+00232  0969             
+00233  0969  85 07      L00174     STA XSCROLLDISP
+00234  096B  85 08      L00175     STA SCROLLDIR           ; LEFT = #$01, RIGHT = #$FF
+00235  096D             
+00236  096D  A5 07      L00176     LDA XSCROLLDISP
+00237  096F  F0 4C                 BEQ L00182
+00238  0971  10 1C                 BPL L00179
+00239  0973  A5 06                 LDA XSCROLLFINE
+00240  0975  0A                    ASL
+00241  0976  29 06                 AND #$06
+00242  0978  D0 0B                 BNE L00177
+00243  097A  A0 04                 LDY #$04                ; SWITCH SCREEN IF XSCROLLFINE = #$00 OR #$04
+00244  097C  8C F0 09              STY SWITCH+1            ; SWITCH SCREEN (#$00 = DON'T SWITCH, #$XX = SWITCH)
+00245  097F  E6 0F                 INC NEXTFOREMAPPTRLO
+00246  0981  D0 02                 BNE L00177
+00247  0983  E6 10                 INC NEXTFOREMAPPTRHI
+00248  0985  C9 04      L00177     CMP #$04
+00249  0987  D0 03                 BNE L00178              ; BRANCH IF XSCROLLFINE <> #$02 AND XSCROLLFINE <> #$06
+00250  0989  8D A9 08              STA DRAW+1              ; FLAG: DRAW FROM MAP TO SCREEN = TRUE
+00251  098C  4C AD 09   L00178     JMP L00181
+00252  098F  A5 06      L00179     LDA XSCROLLFINE
+00253  0991  0A                    ASL
+00254  0992  29 06                 AND #$06
+00255  0994  C9 02                 CMP #$02
+00256  0996  D0 03                 BNE L00180              ; BRANCH IF XSCROLLFINE <> #$01 AND XSCROLLFINE <> #$05
+00257  0998  8D A9 08              STA DRAW+1              ; FLAG: DRAW FROM MAP TO SCREEN = TRUE
+00258  099B  C9 06      L00180     CMP #$06
+00259  099D  D0 0E                 BNE L00181              ; BRANCH IF XSCROLLFINE <> #$03 AND XSCROLLFINE <> #$07
+00260  099F  8D F0 09              STA SWITCH+1            ; SWITCH SCREEN (#$00 = DON'T SWITCH, #$XX = SWITCH)
+00261  09A2  A4 0F                 LDY NEXTFOREMAPPTRLO
+00262  09A4  88                    DEY
+00263  09A5  84 0F                 STY NEXTFOREMAPPTRLO
+00264  09A7  C0 FF                 CPY #$FF
+00265  09A9  D0 02                 BNE L00181
+00266  09AB  C6 10                 DEC NEXTFOREMAPPTRHI
+00267  09AD  A5 06      L00181     LDA XSCROLLFINE
+00268  09AF  18                    CLC
+00269  09B0  65 07                 ADC XSCROLLDISP
+00270  09B2  29 07                 AND #$07
+00271  09B4  85 06                 STA XSCROLLFINE
+00272  09B6  0A                    ASL
+00273  09B7  29 06                 AND #$06
+00274  09B9  09 10                 ORA #$10
+00275  09BB  85 0B                 STA $0B                 ; XSCROLL
+00276  09BD             L00182
+00277  09BD             
+00278  09BD                        ; ACKNOWLEDGE INTERRUPT
+00279  09BD  0E 19 D0              ASL $D019
+00280  09C0             
+00281  09C0                        ; POINT TO NEXT IRQ
+00282  09C0  A9 D5                 LDA #<IRQ130
+00283  09C2  A2 09                 LDX #>IRQ130
+00284  09C4  8D FE FF              STA $FFFE
+00285  09C7  8E FF FF              STX $FFFF
+00286  09CA  A9 82                 LDA #130                ; NEXT IRQ IN RASTER LINE 130
+00287  09CC  8D 12 D0              STA $D012
+00288  09CF             
+00289  09CF                        ; RESTORE STATE
+00290  09CF  68                    PLA
+00291  09D0  A8                    TAY
+00292  09D1  68                    PLA
+00293  09D2  AA                    TAX
+00294  09D3  68                    PLA
+00295  09D4             
+00296  09D4  40                    RTI
+00297  09D5             
+00298  09D5             
+00299  09D5                        ;________________________________________
+00300  09D5                        ;
+00301  09D5                        ;    IRQ HANDLER FOR RASTER LINE 130
+00302  09D5                        ;
+00303  09D5             IRQ130
+00304  09D5                        ; SAVE STATE
+00305  09D5  48                    PHA
+00306  09D6  8A                    TXA
+00307  09D7  48                    PHA
+00308  09D8  98                    TYA
+00309  09D9  48                    PHA
+00310  09DA             
+00311  09DA  A9 B2                 LDA #178                ; NEXT IRQ IN RASTER LINE 178 (16 ROWS * 8 PIXELS + 50)
+00312  09DC  A2 25                 LDX #<IRQ178
+00313  09DE  A0 0A                 LDY #>IRQ178
+00314  09E0  8D 12 D0              STA $D012
+00315  09E3  8E FE FF              STX $FFFE
+00316  09E6  8C FF FF              STY $FFFF
+00317  09E9  A9 01                 LDA #$01                ; ACKNOWLEDGE INTERRUPT
+00318  09EB  8D 19 D0              STA $D019
+00319  09EE  58                    CLI                     ; ALLOW INTERRUPTS - THIS ROUTINE MAY BE INTERRUPTED
+00320  09EF             
+00321  09EF             
+00322  09EF  A2 00      SWITCH     LDX #$00                ; THIS VALUE IS CHANGED IN 189A, 18BD AND 1A3A
+00323  09F1  F0 15                 BEQ NOSWITCH
+00324  09F3  A9 00                 LDA #$00
+00325  09F5  8D F0 09              STA SWITCH+1
+00326  09F8  A5 09                 LDA SCREEN
+00327  09FA  49 01                 EOR #$01                ; SWITCH SCREEN ON NEXT FRAME
+00328  09FC  85 09                 STA SCREEN
+00329  09FE  0A                    ASL
+00330  09FF  0A                    ASL
+00331  0A00  09 60                 ORA #$60
+00332  0A02  85 0E                 STA $0E                 ; THIS IS DONE WHEN MOVING LEFT (RASTER = 132, D016 = D6, D018=0D/19) OR RIGHT (RASTER = 132, D016 = D0, D018=0F/1B)
+00333  0A04  49 04                 EOR #$04
+00334  0A06  85 0D                 STA $0D
+00335  0A08             NOSWITCH
+00336  0A08  A4 06                 LDY XSCROLLFINE
+00337  0A0A  A5 09                 LDA SCREEN
+00338  0A0C  F0 03                 BEQ @SKIP
+00339  0A0E  A9 80                 LDA #$80
+00340  0A10  2C                    BYTE $2C                ; BIT $18A9
+00341  0A11  A9         @SKIP      BYTE $A9                ; LDA #$18
+00342  0A12  90                    BYTE $90
+00343  0A13  19 A1 0D              ORA XSCROLLVAL,Y        ; TABLE OF XSCROLL VALUES INDEXED BY XSCROLLFINE
+00344  0A16  85 0C                 STA $0C                 ; SCREEN AND CHARSET
+00345  0A18  E0 00                 CPX #$00
+00346  0A1A  F0 03                 BEQ NOCOLORUPDATE
+00347  0A1C  20 0E 0C              JSR UPDATECOLORRAM      ; UPDATE COLOR RAM (THIS IS DONE WHEN MOVING LEFT OR RIGHT)
+00348  0A1F             NOCOLORUPDATE 
+00349  0A1F             
+00350  0A1F             
+00351  0A1F                        ; RESTORE STATE
+00352  0A1F  68                    PLA
+00353  0A20  A8                    TAY
+00354  0A21  68                    PLA
+00355  0A22  AA                    TAX
+00356  0A23  68                    PLA
+00357  0A24             
+00358  0A24  40                    RTI
+00359  0A25             
+00360  0A25             
+00361  0A25                        ;________________________________________
+00362  0A25                        ;
+00363  0A25                        ;    IRQ HANDLER FOR RASTER LINE 178
+00364  0A25                        ;
+00365  0A25             IRQ178
+00366  0A25                        ; SAVE STATE
+00367  0A25  48                    PHA
+00368  0A26  8A                    TXA
+00369  0A27  48                    PHA
+00370  0A28  98                    TYA
+00371  0A29  48                    PHA
+00372  0A2A             
+00373  0A2A             
+00374  0A2A  A9 07                 LDA #$07                ; YELLOW
+00375  0A2C  A2 09                 LDX #$09                ; BROWN
+00376  0A2E  A0 05                 LDY #$05                ; GREEN
+00377  0A30  8D 21 D0              STA $D021               ; BACKGROUND COLOR
+00378  0A33  8E 22 D0              STX $D022               ; BACKGROUND COLOR 1
+00379  0A36  8C 23 D0              STY $D023               ; BACKGROUND COLOR 2
+00380  0A39             
+00381  0A39             
+00382  0A39                        ; ACKNOWLEDGE INTERRUPT
+00383  0A39  0E 19 D0              ASL $D019
+00384  0A3C             
+00385  0A3C                        ; POINT TO NEXT IRQ
+00386  0A3C  A9 51                 LDA #<IRQ194
+00387  0A3E  A2 0A                 LDX #>IRQ194
+00388  0A40  8D FE FF              STA $FFFE
+00389  0A43  8E FF FF              STX $FFFF
+00390  0A46  A9 C2                 LDA #194                ; NEXT IRQ IN RASTER LINE 194
+00391  0A48  8D 12 D0              STA $D012
+00392  0A4B             
+00393  0A4B                        ; RESTORE STATE
+00394  0A4B  68                    PLA
+00395  0A4C  A8                    TAY
+00396  0A4D  68                    PLA
+00397  0A4E  AA                    TAX
+00398  0A4F  68                    PLA
+00399  0A50             
+00400  0A50  40                    RTI
+00401  0A51             
+00402  0A51             
+00403  0A51                        ;________________________________________
+00404  0A51                        ;
+00405  0A51                        ;    IRQ HANDLER FOR RASTER LINE 194
+00406  0A51                        ;
+00407  0A51             IRQ194
+00408  0A51                        ; SAVE STATE
+00409  0A51  48                    PHA
+00410  0A52  8A                    TXA
+00411  0A53  48                    PHA
+00412  0A54  98                    TYA
+00413  0A55  48                    PHA
+00414  0A56             
+00415  0A56                        ; TIMING TO MAKE LOWER SEAM STABLE
+00416  0A56  EA                    NOP
+00417  0A57  EA                    NOP
+00418  0A58  EA                    NOP
+00419  0A59  EA                    NOP
+00420  0A5A  EA                    NOP
+00421  0A5B  EA                    NOP
+00422  0A5C  EA                    NOP
+00423  0A5D  EA                    NOP
+00424  0A5E  EA                    NOP
+00425  0A5F  EA                    NOP
+00426  0A60  EA                    NOP
+00427  0A61  EA                    NOP
+00428  0A62             
+00429  0A62             
+00430  0A62  A2 13                 LDX #$13                ; BANK #0, $0000-$3FFF, 0-16383
+00431  0A64  A0 14                 LDY #$14
+00432  0A66  8E 00 DD              STX $DD00
+00433  0A69  8C 18 D0              STY $D018               ; VIC MEMORY CONTROL REGISTER
+00434  0A6C  A9 18                 LDA #$18
+00435  0A6E  8D 16 D0              STA $D016               ; VIC CONTROL REGISTER 2
+00436  0A71  A9 0F                 LDA #$0F                ; LIGHT GRAY
+00437  0A73  8D 21 D0              STA $D021               ; BACKGROUND COLOR
+00438  0A76             
+00439  0A76             
+00440  0A76                        ; ACKNOWLEDGE INTERRUPT
+00441  0A76  0E 19 D0              ASL $D019
+00442  0A79             
+00443  0A79                        ; POINT TO FIRST IRQ IN NEXT FRAME
+00444  0A79  A9 DA                 LDA #<IRQ0
+00445  0A7B  A2 08                 LDX #>IRQ0
+00446  0A7D  8D FE FF              STA $FFFE
+00447  0A80  8E FF FF              STX $FFFF
+00448  0A83  A9 00                 LDA #0                  ; NEXT IRQ IN RASTER LINE 0
+00449  0A85  8D 12 D0              STA $D012
+00450  0A88             
+00451  0A88                        ; RESTORE STATE
+00452  0A88  68                    PLA
+00453  0A89  A8                    TAY
+00454  0A8A  68                    PLA
+00455  0A8B  AA                    TAX
+00456  0A8C  68                    PLA
+00457  0A8D             
+00458  0A8D  40                    RTI
+00459  0A8E             
+00460  0A8E             
+00461  0A8E             
+00462  0A8E             
+00463  0A8E             DRAWSCREEN 
+00464  0A8E                        ;________________________________________
+00465  0A8E                        ;
+00466  0A8E                        ;    DRAW FROM MAP TO SCREEN
+00467  0A8E                        ;
+00468  0A8E  8C 32 0B              STY SCREENROW1+2        ; Y = #$C0 OR #$C4
+00469  0A91  8C 38 0B              STY SCREENROW2+2
+00470  0A94  8C 3E 0B              STY SCREENROW3+2
+00471  0A97  8C 44 0B              STY SCREENROW4+2
+00472  0A9A  8C 4A 0B              STY SCREENROW5+2
+00473  0A9D  8C 50 0B              STY SCREENROW6+2
+00474  0AA0  8C 9B 0B              STY SCREENROW7+2
+00475  0AA3  C8                    INY
+00476  0AA4  8C A6 0B              STY SCREENROW8+2
+00477  0AA7  C8                    INY
+00478  0AA8  8C 56 0B              STY SCREENROW17+2
+00479  0AAB  8C 5C 0B              STY SCREENROW18+2
+00480  0AAE  A5 11                 LDA FOREMAPPTRLO        ; FOREGROUND MAP POINTER LO
+00481  0AB0  18                    CLC
+00482  0AB1  69 41                 ADC #<FOREMAP           ; ADD FOREGROUND MAP ADDRESS LO
+00483  0AB3  A8                    TAY
+00484  0AB4  8D 2E 0B              STA FOREMAP1+1
+00485  0AB7  A5 12                 LDA FOREMAPPTRHI        ; FOREGROUND MAP POINTER HI
+00486  0AB9  69 17                 ADC #>FOREMAP           ; ADD FOREGROUND MAP ADDRESS HI
+00487  0ABB  8D 2F 0B              STA FOREMAP1+2
+00488  0ABE  AA                    TAX
+00489  0ABF  98                    TYA
+00490  0AC0  69 90                 ADC #$90
+00491  0AC2  8D 34 0B              STA FOREMAP2+1
+00492  0AC5  8A                    TXA
+00493  0AC6  69 01                 ADC #$01
+00494  0AC8  8D 35 0B              STA FOREMAP2+2
+00495  0ACB  98                    TYA
+00496  0ACC  69 20                 ADC #$20
+00497  0ACE  8D 3A 0B              STA FOREMAP3+1
+00498  0AD1  8A                    TXA
+00499  0AD2  69 03                 ADC #$03
+00500  0AD4  8D 3B 0B              STA FOREMAP3+2
+00501  0AD7  98                    TYA
+00502  0AD8  69 B0                 ADC #$B0
+00503  0ADA  8D 40 0B              STA FOREMAP4+1
+00504  0ADD  8A                    TXA
+00505  0ADE  69 04                 ADC #$04
+00506  0AE0  8D 41 0B              STA FOREMAP4+2
+00507  0AE3  98                    TYA
+00508  0AE4  69 40                 ADC #$40
+00509  0AE6  8D 46 0B              STA FOREMAP5+1
+00510  0AE9  8A                    TXA
+00511  0AEA  69 06                 ADC #$06
+00512  0AEC  8D 47 0B              STA FOREMAP5+2
+00513  0AEF  98                    TYA
+00514  0AF0  69 D0                 ADC #$D0
+00515  0AF2  8D 4C 0B              STA FOREMAP6+1
+00516  0AF5  8A                    TXA
+00517  0AF6  69 07                 ADC #$07
+00518  0AF8  8D 4D 0B              STA FOREMAP6+2
+00519  0AFB  98                    TYA
+00520  0AFC  69 60                 ADC #$60
+00521  0AFE  8D 92 0B              STA FOREMAP7+1
+00522  0B01  8A                    TXA
+00523  0B02  69 09                 ADC #$09
+00524  0B04  8D 93 0B              STA FOREMAP7+2
+00525  0B07  98                    TYA
+00526  0B08  69 F0                 ADC #$F0
+00527  0B0A  8D 9D 0B              STA FOREMAP8+1
+00528  0B0D  8A                    TXA
+00529  0B0E  69 0A                 ADC #$0A
+00530  0B10  8D 9E 0B              STA FOREMAP8+2
+00531  0B13  98                    TYA
+00532  0B14  69 00                 ADC #$00
+00533  0B16  8D 52 0B              STA FOREMAP17+1
+00534  0B19  8A                    TXA
+00535  0B1A  69 19                 ADC #$19
+00536  0B1C  8D 53 0B              STA FOREMAP17+2
+00537  0B1F  98                    TYA
+00538  0B20  69 90                 ADC #$90
+00539  0B22  8D 58 0B              STA FOREMAP18+1
+00540  0B25  8A                    TXA
+00541  0B26  69 1A                 ADC #$1A
+00542  0B28  8D 59 0B              STA FOREMAP18+2
+00543  0B2B             
+00544  0B2B  A2 26                 LDX #$26                ; THIS SECTION DRAWS ROWS 1-6 AND 17-18
+00545  0B2D             FOREMAP1
+00546  0B2D  BD 07 A3              LDA $A307,X             ; THIS ADDRESS IS CHANGED IN 1026/102D
+00547  0B30             SCREENROW1 
+00548  0B30  9D 00 C4              STA $C400,X             ; SCREEN ROW 1 - THIS ADDRESS IS CHANGED IN 1000
+00549  0B33             FOREMAP2
+00550  0B33  BD 97 A4              LDA $A497,X             ; THIS ADDRESS IS CHANGED IN 1034/103A
+00551  0B36             SCREENROW2 
+00552  0B36  9D 28 C4              STA $C428,X             ; SCREEN ROW 2 - THIS ADDRESS IS CHANGED IN 1003
+00553  0B39             FOREMAP3
+00554  0B39  BD 27 A6              LDA $A627,X             ; THIS ADDRESS IS CHANGED IN 1040/1046
+00555  0B3C             SCREENROW3 
+00556  0B3C  9D 50 C4              STA $C450,X             ; SCREEN ROW 3 - THIS ADDRESS IS CHANGED IN 1006
+00557  0B3F             FOREMAP4
+00558  0B3F  BD B7 A7              LDA $A7B7,X             ; THIS ADDRESS IS CHANGED IN 104C/1052
+00559  0B42             SCREENROW4 
+00560  0B42  9D 78 C4              STA $C478,X             ; SCREEN ROW 4 - THIS ADDRESS IS CHANGED IN 1009
+00561  0B45             FOREMAP5
+00562  0B45  BD 47 A9              LDA $A947,X             ; THIS ADDRESS IS CHANGED IN 1058/105E
+00563  0B48             SCREENROW5 
+00564  0B48  9D A0 C4              STA $C4A0,X             ; SCREEN ROW 5 - THIS ADDRESS IS CHANGED IN 100C
+00565  0B4B             FOREMAP6
+00566  0B4B  BD D7 AA              LDA $AAD7,X             ; THIS ADDRESS IS CHANGED IN 1064/106A
+00567  0B4E             SCREENROW6 
+00568  0B4E  9D C8 C4              STA $C4C8,X             ; SCREEN ROW 6 - THIS ADDRESS IS CHANGED IN 100F
+00569  0B51             FOREMAP17
+00570  0B51  BD 07 BC              LDA $BC07,X             ; THIS ADDRESS IS CHANGED IN 1088/108E
+00571  0B54             SCREENROW17 
+00572  0B54  9D 80 C6              STA $C680,X             ; SCREEN ROW 17 - THIS ADDRESS IS CHANGED IN 101A
+00573  0B57             FOREMAP18
+00574  0B57  BD 97 BD              LDA $BD97,X             ; THIS ADDRESS IS CHANGED IN 1094/109A
+00575  0B5A             SCREENROW18 
+00576  0B5A  9D A8 C6              STA $C6A8,X             ; SCREEN ROW 18 - THIS ADDRESS IS CHANGED IN 101D
+00577  0B5D  CA                    DEX
+00578  0B5E  10 CD                 BPL FOREMAP1
+00579  0B60  A9 F0                 LDA #$F0
+00580  0B62  8D 9A 0B              STA SCREENROW7+1
+00581  0B65  A9 18                 LDA #$18
+00582  0B67  8D A5 0B              STA SCREENROW8+1
+00583  0B6A  A5 12                 LDA FOREMAPPTRHI        ; FOREGROUND MAP POINTER HI
+00584  0B6C  4A                    LSR                     ; DIVIDE FOREGROUND MAP POINTER BY 2 TO GET BACKGROUND MAP POINTER
+00585  0B6D  A5 11                 LDA FOREMAPPTRLO        ; FOREGROUND MAP POINTER LO
+00586  0B6F  6A                    ROR
+00587  0B70  18                    CLC
+00588  0B71  69 A9                 ADC #<BACKMAP           ; ADD BACKGROUND MAP ADDRESS LO
+00589  0B73  8D 97 0B              STA BACKMAP7+1
+00590  0B76  A9 0E                 LDA #>BACKMAP           ; BACKGROUND MAP ADDRESS HI
+00591  0B78  69 00                 ADC #$00
+00592  0B7A  8D 98 0B              STA BACKMAP7+2
+00593  0B7D  AD 97 0B              LDA BACKMAP7+1
+00594  0B80  69 DC                 ADC #$DC                ; ADD BACKGROUND MAP WIDTH
+00595  0B82  8D A2 0B              STA BACKMAP8+1
+00596  0B85  AD 98 0B              LDA BACKMAP7+2
+00597  0B88  69 00                 ADC #$00
+00598  0B8A  8D A3 0B              STA BACKMAP8+2
+00599  0B8D             
+00600  0B8D  A0 04                 LDY #$04                ; THIS SECTION DRAWS ROWS 7-16
+00601  0B8F             DRAWNEXTPAIROFROWS 
+00602  0B8F  A2 26                 LDX #$26
+00603  0B91             FOREMAP7
+00604  0B91  BD E7 B8              LDA $B8E7,X             ; GET CHARACTER FROM FOREGROUND MAP - THIS ADDRESS IS CHANGED IN 1070/1076 AND 1142/114A
+00605  0B94  D0 03                 BNE SCREENROW7          ; BRANCH IF CHARACTER IS FOREGROUND
+00606  0B96             BACKMAP7
+00607  0B96  BD CB A0              LDA $A0CB,X             ; OTHERWISE GET CHARACTER FROM BACKGROUND MAP - THIS ADDRESS IS CHANGED IN 10E5/10EC AND 1162/116A
+00608  0B99             SCREENROW7 
+00609  0B99  9D 30 C6              STA $C630,X             ; WRITE NEW DATA TO SCREEN - THIS ADDRESS IS CHANGED IN 10D4/1012 AND 1126/112B
+00610  0B9C             FOREMAP8
+00611  0B9C  BD 77 BA              LDA $BA77,X             ; GET CHARACTER FROM FOREGROUND MAP - THIS ADDRESS IS CHANGED IN 107C/1082 AND 1152/115A
+00612  0B9F  D0 03                 BNE SCREENROW8          ; BRANCH IF CHARACTER IS FOREGROUND
+00613  0BA1             BACKMAP8
+00614  0BA1  BD A7 A1              LDA $A1A7,X             ; OTHERWISE GET CHARACTER FROM BACKGROUND MAP - THIS ADDRESS IS CHANGED IN 10F4/10FC AND 1172/117A
+00615  0BA4             SCREENROW8 
+00616  0BA4  9D 58 C6              STA $C658,X             ; WRITE NEW DATA TO SCREEN - THIS ADDRESS IS CHANGED IN 10D9/1016 AND 1134/1139
+00617  0BA7  CA                    DEX
+00618  0BA8  10 E7                 BPL FOREMAP7
+00619  0BAA  88                    DEY
+00620  0BAB  10 01                 BPL MOREROWSTODRAW
+00621  0BAD  60                    RTS
+00622  0BAE             MOREROWSTODRAW 
+00623  0BAE  AD 9A 0B              LDA SCREENROW7+1        ; MOVE 2 ROWS DOWN ON SCREEN
+00624  0BB1  18                    CLC
+00625  0BB2  69 50                 ADC #$50
+00626  0BB4  8D 9A 0B              STA SCREENROW7+1
+00627  0BB7  90 04                 BCC @SKIP
+00628  0BB9  EE 9B 0B              INC SCREENROW7+2
+00629  0BBC  18                    CLC
+00630  0BBD  AD A5 0B   @SKIP      LDA SCREENROW8+1        ; MOVE 2 ROWS DOWN ON SCREEN
+00631  0BC0  69 50                 ADC #$50
+00632  0BC2  8D A5 0B              STA SCREENROW8+1
+00633  0BC5  90 04                 BCC @SKIP2
+00634  0BC7  EE A6 0B              INC SCREENROW8+2
+00635  0BCA  18                    CLC
+00636  0BCB  AD 92 0B   @SKIP2     LDA FOREMAP7+1          ; MOVE 2 ROWS DOWN ON FOREGROUND MAP
+00637  0BCE  69 20                 ADC #$20
+00638  0BD0  8D 92 0B              STA FOREMAP7+1
+00639  0BD3  AD 93 0B              LDA FOREMAP7+2
+00640  0BD6  69 03                 ADC #$03
+00641  0BD8  8D 93 0B              STA FOREMAP7+2
+00642  0BDB  AD 9D 0B              LDA FOREMAP8+1          ; MOVE 2 ROWS DOWN ON FOREGROUND MAP
+00643  0BDE  69 20                 ADC #$20
+00644  0BE0  8D 9D 0B              STA FOREMAP8+1
+00645  0BE3  AD 9E 0B              LDA FOREMAP8+2
+00646  0BE6  69 03                 ADC #$03
+00647  0BE8  8D 9E 0B              STA FOREMAP8+2
+00648  0BEB  AD 97 0B              LDA BACKMAP7+1           ; MOVE 2 ROWS DOWN ON BACKGROUND MAP
+00649  0BEE  69 B8                 ADC #$B8
+00650  0BF0  8D 97 0B              STA BACKMAP7+1
+00651  0BF3  AD 98 0B              LDA BACKMAP7+2
+00652  0BF6  69 01                 ADC #$01
+00653  0BF8  8D 98 0B              STA BACKMAP7+2
+00654  0BFB  AD A2 0B              LDA BACKMAP8+1          ; MOVE 2 ROWS DOWN ON BACKGROUND MAP
+00655  0BFE  69 B8                 ADC #$B8
+00656  0C00  8D A2 0B              STA BACKMAP8+1
+00657  0C03  AD A3 0B              LDA BACKMAP8+2
+00658  0C06  69 01                 ADC #$01
+00659  0C08  8D A3 0B              STA BACKMAP8+2
+00660  0C0B  D0 82                 BNE DRAWNEXTPAIROFROWS  ; UNCONDITIONAL BRANCH
+00661  0C0D             
+00662  0C0D  60                    RTS                     ; NEVER REACHED
+00663  0C0E             
+00664  0C0E             
+00665  0C0E             
+00666  0C0E             
+00667  0C0E             
+00668  0C0E             
+00669  0C0E                        ;________________________________________
+00670  0C0E                        ;
+00671  0C0E                        ;    UPDATE COLORRAM
+00672  0C0E                        ;
+00673  0C0E             UPDATECOLORRAM 
+00674  0C0E             
+00675  0C0E  A4 0D                 LDY $0D
+00676  0C10  8C 46 0C              STY CSCREENROW1+2
+00677  0C13  8C 4F 0C              STY CSCREENROW2+2
+00678  0C16  8C 58 0C              STY CSCREENROW3+2
+00679  0C19  8C 61 0C              STY CSCREENROW4+2
+00680  0C1C  8C 6A 0C              STY CSCREENROW5+2
+00681  0C1F  8C 73 0C              STY CSCREENROW6+2
+00682  0C22  8C 7C 0C              STY CSCREENROW7+2
+00683  0C25  C8                    INY
+00684  0C26  8C 8A 0C              STY CSCREENROW8+2
+00685  0C29  8C 93 0C              STY CSCREENROW9+2
+00686  0C2C  8C 9C 0C              STY CSCREENROW10+2
+00687  0C2F  8C A5 0C              STY CSCREENROW11+2
+00688  0C32  8C AE 0C              STY CSCREENROW12+2
+00689  0C35  8C B7 0C              STY CSCREENROW13+2
+00690  0C38  C8                    INY
+00691  0C39  8C C0 0C              STY CSCREENROW14+2
+00692  0C3C  8C C9 0C              STY CSCREENROW15+2
+00693  0C3F  8C D2 0C              STY CSCREENROW16+2
+00694  0C42             
+00695  0C42                        ;STY CSCREENROW17+2
+00696  0C42             
+00697  0C42  A0 26                 LDY #$26
+00698  0C44             CSCREENROW1 
+00699  0C44  BE 00 C0              LDX $C000,Y
+00700  0C47  BD A9 0D              LDA COLORTAB,X
+00701  0C4A  99 00 D8              STA $D800,Y
+00702  0C4D             CSCREENROW2 
+00703  0C4D  BE 28 C0              LDX $C028,Y
+00704  0C50  BD A9 0D              LDA COLORTAB,X
+00705  0C53  99 28 D8              STA $D828,Y
+00706  0C56             CSCREENROW3 
+00707  0C56  BE 50 C0              LDX $C050,Y
+00708  0C59  BD A9 0D              LDA COLORTAB,X
+00709  0C5C  99 50 D8              STA $D850,Y
+00710  0C5F             CSCREENROW4 
+00711  0C5F  BE 78 C0              LDX $C078,Y
+00712  0C62  BD A9 0D              LDA COLORTAB,X
+00713  0C65  99 78 D8              STA $D878,Y
+00714  0C68             CSCREENROW5 
+00715  0C68  BE A0 C0              LDX $C0A0,Y
+00716  0C6B  BD A9 0D              LDA COLORTAB,X
+00717  0C6E  99 A0 D8              STA $D8A0,Y
+00718  0C71             CSCREENROW6 
+00719  0C71  BE C8 C0              LDX $C0C8,Y
+00720  0C74  BD A9 0D              LDA COLORTAB,X
+00721  0C77  99 C8 D8              STA $D8C8,Y
+00722  0C7A             CSCREENROW7 
+00723  0C7A  BE F0 C0              LDX $C0F0,Y
+00724  0C7D  BD A9 0D              LDA COLORTAB,X
+00725  0C80  99 F0 D8              STA $D8F0,Y
+00726  0C83  88                    DEY
+00727  0C84  10 BE                 BPL CSCREENROW1
+00728  0C86  A0 26                 LDY #$26
+00729  0C88             CSCREENROW8 
+00730  0C88  BE 18 C1              LDX $C118,Y
+00731  0C8B  BD A9 0D              LDA COLORTAB,X
+00732  0C8E  99 18 D9              STA $D918,Y
+00733  0C91             CSCREENROW9 
+00734  0C91  BE 40 C1              LDX $C140,Y
+00735  0C94  BD A9 0D              LDA COLORTAB,X
+00736  0C97  99 40 D9              STA $D940,Y
+00737  0C9A             CSCREENROW10 
+00738  0C9A  BE 68 C1              LDX $C168,Y
+00739  0C9D  BD A9 0D              LDA COLORTAB,X
+00740  0CA0  99 68 D9              STA $D968,Y
+00741  0CA3             CSCREENROW11 
+00742  0CA3  BE 90 C1              LDX $C190,Y
+00743  0CA6  BD A9 0D              LDA COLORTAB,X
+00744  0CA9  99 90 D9              STA $D990,Y
+00745  0CAC             CSCREENROW12 
+00746  0CAC  BE B8 C1              LDX $C1B8,Y
+00747  0CAF  BD A9 0D              LDA COLORTAB,X
+00748  0CB2  99 B8 D9              STA $D9B8,Y
+00749  0CB5             CSCREENROW13 
+00750  0CB5  BE E0 C1              LDX $C1E0,Y
+00751  0CB8  BD A9 0D              LDA COLORTAB,X
+00752  0CBB  99 E0 D9              STA $D9E0,Y
+00753  0CBE             CSCREENROW14 
+00754  0CBE  BE 08 C2              LDX $C208,Y
+00755  0CC1  BD A9 0D              LDA COLORTAB,X
+00756  0CC4  99 08 DA              STA $DA08,Y
+00757  0CC7             CSCREENROW15 
+00758  0CC7  BE 30 C2              LDX $C230,Y
+00759  0CCA  BD A9 0D              LDA COLORTAB,X
+00760  0CCD  99 30 DA              STA $DA30,Y
+00761  0CD0             CSCREENROW16 
+00762  0CD0  BE 58 C2              LDX $C258,Y
+00763  0CD3  BD A9 0D              LDA COLORTAB,X
+00764  0CD6  99 58 DA              STA $DA58,Y
+00765  0CD9  88                    DEY
+00766  0CDA  10 AC                 BPL CSCREENROW8
+00767  0CDC  60                    RTS
+00768  0CDD             
+00769  0CDD             
+00770  0CDD                        ;________________________________________
+00771  0CDD                        ;
+00772  0CDD                        ;    UPDATE COLORRAM FOR ROWS 17 AND 18
+00773  0CDD                        ;
+00774  0CDD             UPDATECOLORRAM2ROWS 
+00775  0CDD             
+00776  0CDD  A0 4F                 LDY #$4F
+00777  0CDF             CSCREENROW17 
+00778  0CDF  BE 80 62              LDX $6280,Y
+00779  0CE2  BD A9 0D              LDA COLORTAB,X
+00780  0CE5  99 80 DA              STA $DA80,Y
+00781  0CE8  88                    DEY
+00782  0CE9  10 F4                 BPL CSCREENROW17
+00783  0CEB  60                    RTS
+00784  0CEC             
+00785  0CEC             
+00786  0CEC             
+00787  0CEC             
+00788  0CEC             
+00789  0CEC             
+00790  0CEC                        ;________________________________________
+00791  0CEC                        ;
+00792  0CEC                        ;    SHOW VARIABLES
+00793  0CEC                        ;
+00794  0CEC             SHOWVARIABLES 
+00795  0CEC  A2 01                 LDX #$01
+00796  0CEE  AD 16 D0              LDA $D016
+00797  0CF1  29 07                 AND #$07
+00798  0CF3  20 2F 0D              JSR SHOWBYTE            ; X-SCROLL
+00799  0CF6  A2 04                 LDX #$04
+00800  0CF8  A5 12                 LDA FOREMAPPTRHI
+00801  0CFA  20 2F 0D              JSR SHOWBYTE
+00802  0CFD  A2 06                 LDX #$06
+00803  0CFF  A5 11                 LDA FOREMAPPTRLO
+00804  0D01  20 2F 0D              JSR SHOWBYTE            ; FOREMAPPTR
+00805  0D04  A2 09                 LDX #$09
+00806  0D06  A5 0C                 LDA $0C ; $D018
+00807  0D08  29 0E                 AND #%00001110
+00808  0D0A  0A                    ASL
+00809  0D0B  0A                    ASL
+00810  0D0C  18                    CLC
+00811  0D0D  69 40                 ADC #$40
+00812  0D0F  20 2F 0D              JSR SHOWBYTE
+00813  0D12  A2 0B                 LDX #$0B
+00814  0D14  A9 00                 LDA #$00
+00815  0D16  20 2F 0D              JSR SHOWBYTE            ; CHARSET
+00816  0D19  A2 0E                 LDX #$0E
+00817  0D1B  A5 0C                 LDA $0C ; $D018
+00818  0D1D  29 F0                 AND #%11110000
+00819  0D1F  4A                    LSR
+00820  0D20  4A                    LSR
+00821  0D21  18                    CLC
+00822  0D22  69 40                 ADC #$40
+00823  0D24  20 2F 0D              JSR SHOWBYTE
+00824  0D27  A2 10                 LDX #$10
+00825  0D29  A9 00                 LDA #$00
+00826  0D2B  20 2F 0D              JSR SHOWBYTE            ; SCREEN
+00827  0D2E  60                    RTS
+00828  0D2F             
+00829  0D2F             
+00830  0D2F             SHOWBYTE
+00831  0D2F  A8                    TAY
+00832  0D30  4A                    LSR
+00833  0D31  4A                    LSR
+00834  0D32  4A                    LSR
+00835  0D33  4A                    LSR
+00836  0D34  20 3F 0D              JSR SHOWNYBBLE
+00837  0D37  E8                    INX
+00838  0D38  98                    TYA
+00839  0D39  29 0F                 AND #$0F
+00840  0D3B  20 3F 0D              JSR SHOWNYBBLE
+00841  0D3E  60                    RTS
+00842  0D3F             
+00843  0D3F             
+00844  0D3F             SHOWNYBBLE 
+00845  0D3F  C9 0A                 CMP #$0A
+00846  0D41  B0 04                 BCS LETTER
+00847  0D43  69 30                 ADC #$30
+00848  0D45  90 02                 BCC NYBBLETOSCREEN
+00849  0D47  E9 09      LETTER     SBC #$09
+00850  0D49             NYBBLETOSCREEN 
+00851  0D49  9D 98 07              STA $0798,X
+00852  0D4C  60                    RTS
+00853  0D4D             
+00854  0D4D             
+00855  0D4D             INITSTATUSAREA 
+00856  0D4D  A2 8C                 LDX #$8C
+00857  0D4F  A9 20      @LOOP      LDA #$20
+00858  0D51  9D CF 06              STA $06CF,X
+00859  0D54  9D 5B 07              STA $075B,X
+00860  0D57  A9 00                 LDA #$00
+00861  0D59  9D CF DA              STA $DACF,X
+00862  0D5C  9D 5B DB              STA $DB5B,X
+00863  0D5F  CA                    DEX
+00864  0D60  D0 ED                 BNE @LOOP
+00865  0D62             
+00866  0D62             SHOWHEADERS 
+00867  0D62  A2 16                 LDX #22
+00868  0D64  BD 79 0D   @LOOP      LDA TITLE,X
+00869  0D67  9D 00 07              STA $0700,X
+00870  0D6A  CA                    DEX
+00871  0D6B  10 F7                 BPL @LOOP
+00872  0D6D             SHOWCOLHEADER 
+00873  0D6D  A2 10                 LDX #16
+00874  0D6F  BD 90 0D   @LOOP      LDA COLHEADER,X
+00875  0D72  9D 71 07              STA $0771,X
+00876  0D75  CA                    DEX
+00877  0D76  10 F7                 BPL @LOOP
+00878  0D78  60                    RTS
+00879  0D79             
+00880  0D79             TITLE
+00881  0D79  06 0C 09              TEXT 'FLIMBO'
+00882  0D7F  27                    TEXT "'"
+00883  0D80  13 20 11              TEXT 'S QUEST SCROLLER'
+00884  0D90             
+00885  0D90             COLHEADER
+00886  0D90  18 13 20              TEXT 'XS MPTR CHAR SCRE'
+00887  0DA1             
+00888  0DA1             
+00889  0DA1             
+00890  0DA1             
+00891  0DA1                        ;________________________________________
+00892  0DA1                        ;
+00893  0DA1                        ;    TABLE OF XSCROLL VALUES INDEXED BY XSCROLLFINE
+00894  0DA1                        ;
+00895  0DA1             XSCROLLVAL 
+00896  0DA1  06                    BYTE $06                ; XSCROLLFINE = #$00
+00897  0DA2  06                    BYTE $06                ; XSCROLLFINE = #$01
+00898  0DA3  04                    BYTE $04                ; XSCROLLFINE = #$02
+00899  0DA4  04                    BYTE $04                ; XSCROLLFINE = #$03
+00900  0DA5  02                    BYTE $02                ; XSCROLLFINE = #$04
+00901  0DA6  02                    BYTE $02                ; XSCROLLFINE = #$05
+00902  0DA7  00                    BYTE $00                ; XSCROLLFINE = #$06
+00903  0DA8  00                    BYTE $00                ; XSCROLLFINE = #$07
+00904  0DA9                        ;________________________________________
+00905  0DA9             
+00906  0DA9             
+00907  0DA9             COLORTAB
+00908  0DA9             INCBIN     "COLORTAB.BIN"
+00909  0EA9             
+00910  0EA9             
+00911  0EA9             BACKMAP
+00912  0EA9             INCBIN     "BACKMAP.BIN"
+00913  1741             
+00914  1741             FOREMAP
+00915  1741             INCBIN     "FOREMAP.BIN"
+00916  3361             
+00917  3361             
+00918  3361             *          = $4000
+00919  4000             INCBIN     "CHARSET0.BIN"
+00920  4800             
+00921  4800             *          = $4800
+00922  4800             INCBIN     "CHARSET2.BIN"
+00923  5000             
+00924  5000             *          = $5000
+00925  5000             INCBIN     "CHARSET4.BIN"
+00926  5800             
+00927  5800             *          = $5800
+00928  5800             INCBIN     "CHARSET6.BIN"
+00929  6000             
+
+******* 84 Label(s) *******
+BackMap = $0EA9 
+BackMap7 = $0B96 
+BackMap8 = $0BA1 
+ColHeader = $0D90 
+COLORTAB = $0DA9 
+CScreenRow1 = $0C44 
+CScreenRow10 = $0C9A 
+CScreenRow11 = $0CA3 
+CScreenRow12 = $0CAC 
+CScreenRow13 = $0CB5 
+CScreenRow14 = $0CBE 
+CScreenRow15 = $0CC7 
+CScreenRow16 = $0CD0 
+CScreenRow17 = $0CDF 
+CScreenRow2 = $0C4D 
+CScreenRow3 = $0C56 
+CScreenRow4 = $0C5F 
+CScreenRow5 = $0C68 
+CScreenRow6 = $0C71 
+CScreenRow7 = $0C7A 
+CScreenRow8 = $0C88 
+CScreenRow9 = $0C91 
+DoDraw = $08AF 
+Draw = $08A8 
+DrawNextPairOfRows = $0B8F 
+DrawScreen = $0A8E 
+ForeMap = $1741 
+ForeMap1 = $0B2D 
+ForeMap17 = $0B51 
+ForeMap18 = $0B57 
+ForeMap2 = $0B33 
+ForeMap3 = $0B39 
+ForeMap4 = $0B3F 
+ForeMap5 = $0B45 
+ForeMap6 = $0B4B 
+ForeMap7 = $0B91 
+ForeMap8 = $0B9C 
+InitStatusArea = $0D4D 
+IRQ0 = $08DA 
+IRQ130 = $09D5 
+IRQ178 = $0A25 
+IRQ194 = $0A51 
+L00166 = $093B 
+L00170 = $0953 
+L00174 = $0969 
+L00175 = $096B 
+L00176 = $096D 
+L00177 = $0985 
+L00178 = $098C 
+L00179 = $098F 
+L00180 = $099B 
+L00181 = $09AD 
+L00182 = $09BD 
+Letter = $0D47 
+MoreRowsToDraw = $0BAE 
+NoColorUpdate = $0A1F 
+NoRead = $0912 
+NoSwitch = $0A08 
+NotAtEndOfMap = $094B 
+NotAtStartOfMap = $0961 
+NotLeft = $092E 
+NotRight = $0924 
+NybbleToScreen = $0D49 
+READJOY = $0909 
+ScreenRow1 = $0B30 
+ScreenRow17 = $0B54 
+ScreenRow18 = $0B5A 
+ScreenRow2 = $0B36 
+ScreenRow3 = $0B3C 
+ScreenRow4 = $0B42 
+ScreenRow5 = $0B48 
+ScreenRow6 = $0B4E 
+ScreenRow7 = $0B99 
+ScreenRow8 = $0BA4 
+ShowByte = $0D2F 
+ShowColHeader = $0D6D 
+ShowHeaders = $0D62 
+ShowNybble = $0D3F 
+ShowVariables = $0CEC 
+Switch = $09EF 
+Title = $0D79 
+UpdateColorRAM = $0C0E 
+UpdateColorRAM2Rows = $0CDD 
+XSCROLLVAL = $0DA1 
+
+******* 38 Unused label(s) *******
+@Left
+@Loop
+@Loop
+@Loop
+@Skip
+@Skip
+@Skip
+@Skip2
+BackMap7
+BackMap8
+CScreenRow10
+CScreenRow11
+CScreenRow12
+CScreenRow13
+CScreenRow14
+CScreenRow15
+CScreenRow16
+CScreenRow2
+CScreenRow3
+CScreenRow4
+CScreenRow5
+CScreenRow6
+CScreenRow7
+CScreenRow9
+ForeMap17
+ForeMap18
+ForeMap2
+ForeMap3
+ForeMap4
+ForeMap5
+ForeMap6
+ForeMap8
+InitStatusArea
+READJOY
+ScreenRow1
+ScreenRow17
+ScreenRow18
+ScreenRow2
+ScreenRow3
+ScreenRow4
+ScreenRow5
+ScreenRow6
+ShowColHeader
+ShowHeaders
+Switch
+UpdateColorRAM2Rows
+
+******* 12 Variable(s) *******
+ForeMapPtrHI  = $0012
+ForeMapPtrLO  = $0011
+JoyByte  = $001C
+JoyDir  = $0014
+NextForeMapPtrHI  = $0010
+NextForeMapPtrLO  = $000F
+Screen  = $0009
+ScrollDir  = $0008
+STARTMAPPTR  = $00B6
+tgt_c64  = $0001
+XScrollDisp  = $0007
+XScrollFine  = $0006
+******* -7 Unused variables(s) *******
+tgt_c64
+

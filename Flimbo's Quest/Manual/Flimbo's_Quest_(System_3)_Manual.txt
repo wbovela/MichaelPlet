@@ -1,0 +1,160 @@
+
+
+                         FLIMBO'S QUEST
+                COPYRIGHT SYSTEM 3 SOFTWARE 1990
+
+IMPORTANT:  DO  NOT  INSERT  OR  REMOVE  A  CARTRIDGE  WHEN GAMES
+SYSTEM IS SWITCHED ON.
+
+                        STARTING THE GAME
+
+1. Make sure your C64 Games System is switched off.
+
+2. Plug your cartridge in the port on the top of the Games System
+   with  the  label  facing you  (as viewed from the front of the
+   Games System).
+
+3. Turn  your  C64 Games System  on:  The opening title page will
+   appear on your television.
+
+4. Using the games controller, highlight the name Flimbo's Quest.
+   Press the fire button to begin playing the game.
+
+
+DAZZ BAZIAN'S SHOP
+
+In  Dazz  Bazian's  shop you can exchange money for the different
+items  he has on display,  these are shown as icons at both sides
+of  the screen.  As you enter the shop any hearts and scrolls you
+are  carrying  will automatically be taken from you and displayed
+on the screen. In the case of items like invulnerability potions,
+if you already have one of these then the appropriate icon on the
+screen  will  appear  with  a  cross  over it.  If you try to buy
+something  you  have,  then  Dazz  will tell you that you have it
+already.
+
+For the C64 Games System, the order of the icons are:
+SUPER  SCROLL,  EXIT  SHOP,  SUPER  WEAPON,  SCROLL,  EXTRA TIME,
+INVULNERABILITY.
+
+By  moving the joystick, each icon can be highlighted in turn and
+pressing the fire button will select that item. If it has a value
+the  cost  will  be deducted from Flimbo's purse -- if you do not
+have sufficient money then Dazz will have something to say.
+
+The costs of the different items are:
+
+Super Weapon     350
+Extra Time       300
+Invulnerability  250
+Scroll           400
+Super Scroll    2500
+
+
+THE GOODIES...
+
+Super Weapon  --  gives you greater range and power of the weapon
+you already have for example, a mutant that requires two or three
+shots  normally  can  be  destroyed  with one shot from the super
+weapon.
+
+EXTRA TIME  --  slows down the recharge time of Fransz Dandruff's
+machine therefore giving you extra time to rescue Pearly.
+
+INVULNERABILITY  --  having  this will protect you from attack by
+mutants,  but  only  for  a  short period of time.  When you have
+invulnerability  Flimbo's  face  turns  green  and  while in this
+condition  you  can  destroy mutants just by colliding into them.
+To  warn you when the effect is about to wear off,  Flimbo's face
+will begin to flash.
+
+SCROLL  --  Buying one or more scrolls to complete the magic word
+is useful if time is running short -- remember, it's much cheaper
+if you can find, and kill, the creatures that carry scrolls.
+
+SUPER SCROLL  --  like  the ordinary scroll,  it turns into magic
+letters  when  given  to  Dazz,  except  this  is a complete word
+thereby  allowing  you to move onto the next world as soon as you
+have  it  (very  useful  when  time  is running short -- but very
+expensive),  can  also  be collected from a mutant,  but they are
+quite rare to see.
+
+On display behind the counter in the shop are two vital pieces of
+information.  First, the magic letters you have already collected
+so  you  know  how many more you need to get into the next world.
+Second,  the  number  and  colour of hearts you have collected --
+this  helps  you work out what other colours you need in order to
+get an extra life.
+
+You  must  remember  that  some  creatures  that  you  kill  will
+occasionally  turn  into the above items,  so saving you a lot of
+money.
+
+Hint:  although  the  Super  Weapon  is  usually  at  the  top of
+everyone's  shopping list,  you should also seriously think about
+how much time you have left to rescue Pearly.
+
+
+DOORWAYS
+
+There  are  lots  of doorways, caves and other types of entrances
+dotted  around  the  landscape of Dandruff's estate.  It is worth
+trying  them  all  by standing in front of them and pushing up on
+your joystick. At some entrances etc. nothing at all will happen,
+others may lead into one of Dazz Bazian's shops  (these are worth
+making a note of as there is only one per world). The best of all
+are the ones leading to secret rooms.
+
+Hint:  it  pays  to  try and find out which entrance is to Dazz's
+shop as quickly as possible.
+
+
+SECRET ROOMS
+
+In secret treasure rooms you will have the chance to accumulate a
+lot of money.  Placed on shelves around the room there are either
+coins  or  money  bags.  Normally  these  are only a low value of
+money, but if you watch carefully then you will see that randomly
+the value of one object changes.
+
+To  collect the money in the room all you have to do is touch the
+money  with  any  part of Flimbo.  In order to get the most money
+possible do not just run around the room collecting everything --
+look  around the room for the object that has changed to a higher
+value, indicated on the C64 Games System, by a different coloured
+coin.
+
+To  get  the  high value objects,  carefully jump over the others
+until  you  reach  the one you want.  When an object changes to a
+higher  value  it  stays  that  way  till  you have collected it.
+Remember, more money -- more purchases from Dazz Bazian.
+
+Hint:  do not spend too much time in the secret rooms -- time can
+be more precious than money!
+
+
+SCROLLS
+
+Look  out  for mutants carrying scrolls.  You have to collect the
+scrolls  and  take  them to Dazz Bazian's shop.  Once there,  the
+scrolls turn into letters which will spell a magic word. When the
+word  is complete you can move on to the next world by finding an
+exit doorway.  The first world's word is only three letters long,
+as you travel through other worlds the magic words become longer.
+
+To  identify which creatures are carrying scrolls,  a mug shot of
+the  species is displayed in the status area and in Dazz Bazian's
+shop.  Also,  the individual creature who has a scroll flashes on
+the C64 Games System.
+
+
+JOYSTICK CONTROLS
+
+Left and right -- Moves Flimbo to the left or the right.
+Up -- Makes Flimbo jump up.
+Down -- Flimbo comes down from a platform.
+Fire Button -- Fires Flimbo's weapon.
+Fire Button and Down -- Flimbo ducks down.
+
+Hint: there are some scrolls hidden around Dandruff's estate, its
+always worth ducking down to see what you may find!

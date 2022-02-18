@@ -1,0 +1,85 @@
+Move Left:
+----------																																					V1																		V2																		V3
+
+If RayChrX = 0 Then																														LDA RayChrX		3												LDA RayChrX		3							BlkXNot0	DEC RayBlkX		5				RayChrX	RayBlkX	RayMapX		CyclesV1	CyclesV2	CyclesV3
+		If RayBlkX = 0 Then																												BEQ ChrXIs0		2/3											BNE ChrXNot0	2/3											JMP ShortcutL	3   		0				0				0					18				16        16
+				If RayMapX = 0 Then																										DEC RayChrX		5												LDA RayBlkX		3							ChrXNot0	DEC RayChrX		5   		0				0				1					32				33        30
+						Do Nothing (We are at left edge of Map)														JMP DoneLeft	3												BNE BlkXNot0	2/3											JMP DoneLeft	3   		0				1				x					24				27        24
+				Else																												ChrXIs0		LDA RayBlkX		3												LDA RayMapX		3							                            		1				x				x					13				11        14
+						RayMapX = RayMapX - 1																							BEQ BlkXIs0		2/3											BEQ DoneLeft	2/3           EntryPtL	LDA RayChrX		3
+						RayBlkX = 3																												DEC RayBlkX		5												DEC RayMapX		5             					BNE ChrXNot0	2/3
+						RayChrX = 7																												LDA #7				2												LDA #3				2             					LDA RayBlkX		3
+				End If																																STA RayChrX		3												STA RayBlkX		3             					BNE BlkXNot0	2/3
+		Else																																			JMP DoneLeft	3							ShortcutL	LDA #7				2             					LDA RayMapX		3
+				RayBlkX = RayBlkX - 1																				BlkXIs0		LDA RayMapX		3												STA RayChrX		3             					BEQ DoneLeft	2/3
+				RayChrX = 7																														BEQ DoneLeft	2/3											JMP DoneLeft	3             					DEC RayMapX		5
+		End If																																		DEC RayMapX		5							BlkXNot0	DEC RayBlkX		5             					LDA #3				2
+Else																																					LDA #3				2												JMP ShortcutL	3             					STA RayBlkX		3
+		RayChrX = RayChrX - 1																											STA RayBlkX		3							ChrXNot0	DEC RayChrX		5             ShortcutL	LDA #7				2
+End If																																				LDA #7				2							DoneLeft                              					STA RayChrX		3
+																																							STA RayChrX		3                                                   DoneLeft
+																																		DoneLeft
+Move Right:
+-----------
+
+If RayChrX = 7 Then																									BlkXNot3	INC RayBlkX
+		If RayBlkX = 3 Then																												LDA #0
+				If RayMapX = MaxMapX Then																							JMP ShortcutR
+						Do Nothing (We are at right edge of Map)								ChrXNot7	INC RayChrX
+				Else																																	JMP DoneRight
+						RayMapX = RayMapX + 1																		EntryPtR	LDA RayChrX
+						RayBlkX = 0																												CMP #7
+						RayChrX = 0																												BNE ChrXNot7
+				End If																																LDA RayBlkX
+		Else																																			CMP #3
+				RayBlkX = RayBlkX + 1																									BNE BlkXNot3
+				RayChrX = 0																														LDA RayMapX
+		End If																																		CMP MaxMapX
+Else																																					BEQ DoneRight
+		RayChrX = RayChrX + 1																											INC RayMapX
+End If																																				LDA #0
+																																							STA RayBlkX
+																																		ShortcutR	STA RayChrX
+Move Up:																														DoneRight
+----------
+
+If RayChrY = 0 Then																									BlkYNot0	DEC RayBlkY
+		If RayBlkY = 0 Then																												JMP ShortcutU
+				If RayMapY = 0 Then																					ChrYNot0	DEC RayChrY
+						Do Nothing (We are at top edge of Map)														JMP DoneUp
+				Else																												EntryPtU	LDA RayChrY
+						RayMapY = RayMapY - 1																							BNE ChrYNot0
+						RayBlkY = 3																												LDA RayBlkY
+						RayChrY = 7																												BNE BlkYNot0
+				End If																																LDA RayMapY
+		Else																																			BEQ DoneUp
+				RayBlkY = RayBlkY - 1																									DEC RayMapY
+				RayChrY = 7																														LDA #3
+		End If																																		STA RayBlkY
+Else																																ShortcutU	LDA #7
+		RayChrY = RayChrY - 1																											STA RayChrY
+End If																															DoneUp
+
+
+Move Down:
+----------
+
+If RayChrY = 7 Then																									BlkYNot3	INC RayBlkY
+		If RayBlkY = 3 Then                                             					LDA #0
+				If RayMapY = MaxMapY Then                                   					JMP ShortcutD
+						Do Nothing (We are at bottom edge of Map)               ChrYNot7	INC RayChrY
+				Else                                                        					JMP DoneDown
+						RayMapY = RayMapY + 1                                   EntryPtd	LDA RayChrY
+						RayBlkY = 0                                             					CMP #7
+						RayChrY = 0                                             					BNE ChrYNot7
+				End If                                                      					LDA RayBlkY
+		Else                                                            					CMP #3
+				RayBlkY = RayBlkY + 1                                       					BNE BlkYNot3
+				RayChrY = 0                                                 					LDA RayMapY
+		End If                                                          					CMP MaxMapY
+Else                                                                					BEQ DoneDown
+		RayChrY = RayChrY + 1                                           					INC RayMapY
+End If                                                              					LDA #0
+                                                                    					STA RayBlkY
+                                                                    ShortcutD	STA RayChrY
+                                                                    DoneDown
